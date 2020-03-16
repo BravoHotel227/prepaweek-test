@@ -1,25 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css"
+  />
     <title>Meal Prep</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-    <input type="text" class="ipt-username" id="ipt-username">
-    <input type="password" class="ipt-password" id="ipt-password">
-    <button id="connect">Return recipes in database</button>
-    <button id="users">Return users in database</button>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <input
+      type="text"
+      class="ipt-username"
+      id="ipt-username"
+      value="zombiemage12343@hotmail.com"
+    />
+    <input
+      type="password"
+      class="ipt-password"
+      id="ipt-password"
+      value="123456"
+    />
+    <button id="logout">Logout</button>
     <button id="login">Login</button>
-    <button id="check">Check</button>
+    <div class="recipe-form" id="recipe-form">
+      <form id="submit">
+        <input type="text" id="title" placeholder="Recipe title">
+        <input type="text" id="prepTime" placeholder="Prep time">
+        <select id="category">
+          <option value="null">Select one...</option>
+          <option value="breakfast">Breakfast</option>
+          <option value="lunch">Lunch</option>
+          <option value="dinner">Dinner</option>
+          <option value="snack">Snack</option>
+          <option value="dessert">Dessert</option>
+        </select>
+        <textarea id="direction" cols="70" rows="10" placeholder="Recipe directions..."></textarea>
+        <textarea id="note" cols="70" rows="8" placeholder="Recipe notes..."></textarea>
+        <input type="checkbox" id="vegan">Vegan
+        <input type="checkbox" id="glutenfree">Gluten free
+        <input type="file" id="image" accept="image/*" >
+        <div id="ingredientCont">
+          <input type="text" class="ingredientName" id="ingredientName" placeholder="">
+          <input type="text" class="ingredientQty" id="ingredientQty" placeholder=""></br>
+        </div>
+        <input type="submit">
+      </form>
+      <button class="addIngredientIpt" id="addIpt">
+        <i class="fas fa-plus" onclick="addFields()"></i>
+      </button>
+    </div>
     <div id="result-heading"></div>
     <div class="meals" id="meals"></div>
-    <div id="single-meal">
+    <div id="single-meal"></div>
+    <script src="main.js">
 
-    </div>
-    <script src="main.js"></script>
-</body>
+    </script>
+  </body>
 </html>

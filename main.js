@@ -1,21 +1,21 @@
 // DOM Elements
-const connect = document.getElementById('connect'),
-  users = document.getElementById('users'),
+const logout = document.getElementById('logout'),
   login = document.getElementById('login'),
-  check = document.getElementById('check'),
-  resultHeading = document.getElementById('result-heading');
-mealsEl = document.getElementById('meals');
-single_mealEl = document.getElementById('single-meal');
+  resultHeading = document.getElementById('result-heading'),
+  mealsEl = document.getElementById('meals'),
+  iptPassword = document.getElementById('ipt-password'),
+  iptUsername = document.getElementById('ipt-username'),
+  single_mealEl = document.getElementById('single-meal');
+
 let pageNum = 1;
 
 // Fetch all recipes owned by logged in user
 async function queryApi(pageNum) {
   await fetch(
     `https://www.mealprepapi.com/api/v1/recipes?user=${localStorage.userId}&&page=${pageNum}`
+    //`https://www.mealprepapi.com/api/v1/recipes?user=5e30c56996249e33805f9302&&page=${pageNum}`
   )
-    .then(response => {
-      return response.json();
-    })
+    .then(response => response.json())
     .then(results => {
       if (results.data === null) {
         resultHeading.innerHTML = `<p> No results found </p>`;
@@ -32,7 +32,6 @@ async function queryApi(pageNum) {
           )
           .join('');
       }
-      console.log(results);
       if (results.pagination.next) {
         mealsEl.innerHTML += `
          <button id="page-next" onclick="queryApi(${pageNum +
@@ -53,19 +52,19 @@ function getRecipeById(recipeID) {
   fetch(`https://www.mealprepapi.com/api/v1/recipes/${recipeID}`)
     .then(response => response.json())
     .then(results => {
-      const recipe = results.data[0];
-
+      const recipe = results.data;
       addRecipeToDOM(recipe);
     });
 }
 
 // Add recipe to DOM
 function addRecipeToDOM(recipe) {
-  // const ingredients = [];
-  // for(let i = 0; i < recipe[ingredientNames.length]; i++){
-  //   ingredients.push
-  // }
-  console.log(recipe);
+  const ingredients = [];
+  for (let i = 0; i < recipe.ingredientNames.length; i++) {
+    ingredients.push(`
+      ${recipe.ingredientNames[i]} - ${recipe.ingredientQtys[i]}
+    `);
+  }
   single_mealEl.innerHTML = `
   <div class="single-meal">
       <h1>${recipe.title}</h1>
@@ -76,9 +75,7 @@ function addRecipeToDOM(recipe) {
           <p>${recipe.directions}</p>
           <h2>Ingregients</h2>
           <ul>
-              ${recipe.ingredientNames
-                .map(ingName => `<li>${ingName}</li>`)
-                .join('')}
+              ${ingredients.map(ing => `<li>${ing}</li>`).join('')}
           <ul>
       </div>
   </div>
@@ -86,109 +83,72 @@ function addRecipeToDOM(recipe) {
 }
 
 async function loginFun() {
-  let iptUsername = document.getElementById('ipt-username').value;
-  let iptPassword = document.getElementById('ipt-password').value;
   await fetch('https://www.mealprepapi.com/api/v1/auth/login', {
     method: 'POST',
     headers: {
       'Content-type': 'application/json'
     },
     body: JSON.stringify({
-      email: iptUsername,
-      password: iptPassword
+      email: iptUsername.value,
+      password: iptPassword.value
     })
   })
     .then(response => response.json())
     .then(results => {
       if (results.success === true) {
-        document.getElementById('information').innerHTML =
-          'Logged in sucessfully';
+        alert('login was sucessful');
+        //store token in local storage
+        localStorage.token = results.token;
+        getUser();
       } else {
-        document.getElementById('information').innerHTML =
-          'Incorrect log in details';
+        alert('Incorrect details');
       }
-      // store token in local storage
-      localStorage.token = results.token;
-      //console.log(token);
     });
 }
 
-async function queryUsers() {
-  // retrieve token from local storage
-  bToken = 'Bearer ' + localStorage.token;
+async function getUser() {
   await fetch('https://www.mealprepapi.com/api/v1/auth/me', {
     method: 'GET',
     headers: {
-      'Content-type': 'application/json',
-      Authorization: bToken
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + localStorage.token
     }
   })
     .then(response => response.json())
     .then(results => {
-      document.getElementById('information').innerHTML = results.date.name;
-      localStorage.userId = results.date._id;
+      if (results.success === true) {
+        localStorage.userId = results.data._id;
+        queryApi(pageNum);
+      }
     });
 }
 
-function checkFun() {
-  var lis = document.getElementById('information').getElementsByTagName('li');
-  for (var i = 0; i < lis.length; i++) {
-    //lis[i].addEventListener("click", getRecipe(this))
-    lis[i].onclick = function() {
-      getRecipe(this);
-    };
-  }
-  //console.log(lis.length);
-}
-
-async function getRecipe(recipeName) {
-  //var lis = document.getElementById('information').getElementsByTagName('li');
-  //console.log(lis.length);
-  console.log(recipeName.innerHTML);
-  checkTitle(recipeName.innerHTML);
-  await fetch(
-    `https://www.mealprepapi.com/api/v1/recipes?title=${recipeName}`,
-    {
-      method: 'GET',
-      headers: {
-        'Content-type': 'application/json'
-      }
+async function logoutUser() {
+  // retrieve token from local storage
+  await fetch('https://www.mealprepapi.com/api/v1/auth/logout', {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + localStorage.token
     }
-  )
+  })
     .then(response => response.json())
     .then(results => {
-      for (i = 0; i < results.data.length; i++) {
-        document.getElementById('recipe-info').innerHTML +=
-          results.data[0].title;
-        for (i = 0; i < results.data[0].ingredientNames.length; i++) {
-          document.getElementById('recipe-info').innerHTML +=
-            '<li>' +
-            results.data[0].ingredientNames[i] +
-            '-' +
-            results.data[0].ingredientQtys[i] +
-            '</li>';
-        }
-        console.log(results.data[0]);
+      if (results.success === true) {
+        resultHeading.innerHTML = '';
+        meals.innerHTML = '';
+        single_mealEl.innerHTML = '';
+        localStorage.removeItem('userId');
+        localStorage.removeItem('token');
+      } else {
+        console.log(results);
+        alert('Logout failed...');
       }
     });
-}
-
-function checkTitle(recipeName) {
-  for (i = 0; i < recipeName.length; i++) {
-    if (recipeName[i] === '&') {
-      recipeName = recipeName.split('&amp;').join('%26');
-      break;
-    }
-  }
-  console.log(recipeName);
-  return recipeName;
 }
 
 // Event listeners
-connect.addEventListener('click', queryApi(pageNum));
-users.addEventListener('click', queryUsers);
+logout.addEventListener('click', logoutUser);
 login.addEventListener('click', loginFun);
-check.addEventListener('click', checkFun);
 mealsEl.addEventListener('click', e => {
   const recipeInfo = e.path.find(item => {
     if (item.classList) {
@@ -202,3 +162,12 @@ mealsEl.addEventListener('click', e => {
     getRecipeById(recipeID);
   }
 });
+
+function addFields() {
+  const container = document.getElementById('ingredientCont');
+  let inputCount = document.querySelectorAll('#ingredientCont .ingredientName')
+    .length;
+  console.log(inputCount);
+  container.innerHTML += `<input type="text" class="ingredientName" id="ingredientName_${inputCount}" placeholder="">`;
+  container.innerHTML += `<input type="text" class="ingredientQty" id="ingredientQty_${inputCount}" placeholder=""></br>`;
+}
