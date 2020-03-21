@@ -5,7 +5,9 @@ const logout = document.getElementById('logout'),
   mealsEl = document.getElementById('meals'),
   iptPassword = document.getElementById('ipt-password'),
   iptUsername = document.getElementById('ipt-username'),
-  single_mealEl = document.getElementById('single-meal');
+  single_mealEl = document.getElementById('single-meal'),
+  createRecipeForm = document.getElementById('createRecipe'),
+  photoForm = document.getElementById('photoUpload');
 
 let pageNum = 1;
 
@@ -146,9 +148,80 @@ async function logoutUser() {
     });
 }
 
+async function createRecipe(e) {
+  e.preventDefault();
+
+  const formData = new FormData();
+  formData.append('title', document.getElementById('title').value);
+  formData.append('prepTime', document.getElementById('prepTime').value);
+  formData.append('category', document.getElementById('category').value);
+  formData.append('directions', document.getElementById('directions').value);
+  formData.append('photo', document.getElementById('image').files[0]);
+  formData.append('notes', document.getElementById('notes').value);
+  let vegan;
+  if (document.getElementById('vegan').value === true) {
+    vegan = true;
+  } else {
+    vegan = false;
+  }
+  let gluten;
+  if (document.getElementById('glutenfree').value === true) {
+    gluten = true;
+  } else {
+    gluten = false;
+  }
+  formData.append('vegan', vegan);
+  formData.append('glutenFree', gluten);
+  let inputCount = document.querySelectorAll('#ingredientCont .ingContainer')
+    .length;
+  var ingredientNames = [];
+  var ingredientQtys = [];
+  for (let i = 0; i < inputCount; i++) {
+    ingredientNames[i] = document.getElementById(`ingredientName_${i}`).value;
+    ingredientQtys[i] = document.getElementById(`ingredientQty_${i}`).value;
+    console.log(ingredientNames[i]);
+    formData.append('ingredientNames', ingredientNames[i]);
+    formData.append('ingredientQtys', ingredientQtys[i]);
+  }
+  await fetch('https://www.mealprepapi.com/api/v1/recipes', {
+    method: 'post',
+    headers: {
+      Authorization: 'Bearer ' + localStorage.token
+    },
+    body: formData
+  })
+    .then(response => response.json())
+    .then(results => {
+      console.log(results);
+    });
+}
+
+async function uploadPhoto(e) {
+  e.preventDefault();
+  const formData = new FormData();
+  formData.append('photo', document.getElementById('image').files[0]);
+  await fetch(
+    `https://www.mealprepapi.com/api/v1/recipes/5e30c53696249e33805f9300/photo`,
+    {
+      method: 'post',
+      headers: {
+        Authorization: 'Bearer ' + localStorage.token,
+        'Content-Type': 'image/jpeg'
+      },
+      body: formData
+    }
+  )
+    .then(response => response.json())
+    .then(results => {
+      console.log(results);
+    });
+}
+
 // Event listeners
 logout.addEventListener('click', logoutUser);
 login.addEventListener('click', loginFun);
+createRecipeForm.addEventListener('submit', createRecipe);
+photoForm.addEventListener('submit', uploadPhoto);
 mealsEl.addEventListener('click', e => {
   const recipeInfo = e.path.find(item => {
     if (item.classList) {
@@ -164,18 +237,25 @@ mealsEl.addEventListener('click', e => {
 });
 
 function addFields() {
-  const container = document.getElementById('ingredientCont');
-  let inputCount = document.querySelectorAll('#ingredientCont .ingredientName').length;
+  const ingredientCont = document.getElementById('ingredientCont');
+  let inputCount = document.querySelectorAll('#ingredientCont .ingredientName')
+    .length;
   console.log(inputCount);
-  container.innerHTML += `<input type="text" class="ingredientName" id="ingredientName_${inputCount}" placeholder="">`;
-  container.innerHTML += `<input type="text" class="ingredientQty" id="ingredientQty_${inputCount}" placeholder=""></br>`;
+  let divCont = document.createElement('DIV');
+  divCont.setAttribute('id', `ingContainer_${inputCount}`);
+  divCont.setAttribute('class', 'ingContainer');
+  divCont.innerHTML += `<input type="text" class="ingredientName" id="ingredientName_${inputCount}" placeholder="">`;
+  divCont.innerHTML += `<input type="text" class="ingredientQty" id="ingredientQty_${inputCount}" placeholder="">`;
+  document.getElementById('ingredientCont').appendChild(divCont);
 }
 
-function removeFields(){
+function removeFields() {
   const container = document.getElementById('ingredientCont');
-  let inputCount = document.querySelectorAll('#ingredientCont .ingredientName').length;
-  console.log(inputCount)
-  container.innerHTML -= `<input type="text" class="ingredientName" id="ingredientName_${inputCount}" placeholder="">`;
-  container.innerHTML -= `<input type="text" class="ingredientQty" id="ingredientQty_${inputCount}" placeholder=""></br>`;
-
+  let inputCount = document.querySelectorAll('#ingredientCont .ingredientName')
+    .length;
+  if (inputCount === 1) {
+    console.log('Cant remove last object');
+  } else {
+    container.removeChild(container.childNodes[inputCount]);
+  }
 }
