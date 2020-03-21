@@ -165,9 +165,17 @@ mealsEl.addEventListener('click', e => {
 
 function addFields() {
   const container = document.getElementById('ingredientCont');
-  let inputCount = document.querySelectorAll('#ingredientCont .ingredientName')
-    .length;
+  let inputCount = document.querySelectorAll('#ingredientCont .ingredientName').length;
   console.log(inputCount);
   container.innerHTML += `<input type="text" class="ingredientName" id="ingredientName_${inputCount}" placeholder="">`;
   container.innerHTML += `<input type="text" class="ingredientQty" id="ingredientQty_${inputCount}" placeholder=""></br>`;
+}
+
+function removeFields(){
+  const container = document.getElementById('ingredientCont');
+  let inputCount = document.querySelectorAll('#ingredientCont .ingredientName').length;
+  console.log(inputCount)
+  container.innerHTML -= `<input type="text" class="ingredientName" id="ingredientName_${inputCount}" placeholder="">`;
+  container.innerHTML -= `<input type="text" class="ingredientQty" id="ingredientQty_${inputCount}" placeholder=""></br>`;
+
 }
