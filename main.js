@@ -8,7 +8,8 @@ const logout = document.getElementById('logout'),
   single_mealEl = document.getElementById('single-meal'),
   createRecipeForm = document.getElementById('createRecipe'),
   photoForm = document.getElementById('photoUpload'),
-  addRecipeBtn = document.getElementById('btn-addRecipe');
+  addRecipeBtn = document.getElementById('btn-addRecipe'),
+  resgister = document.getElementById('register');
 
 let pageNum = 1;
 
@@ -68,9 +69,13 @@ function addRecipeToDOM(recipe) {
       ${recipe.ingredientNames[i]} - ${recipe.ingredientQtys[i]}
     `);
   }
+  const test = "test"
   single_mealEl.innerHTML = `
   <div class="single-meal">
       <h1>${recipe.title}</h1>
+      <h2 id='recipeId'>${recipe._id}</h2>
+      <button id='edit-recipe' onclick='editRecipe()'>Edit</button>
+      <button id='delete-recipe' onclick='deleteRecipe()'>Delete</button>
       <div class="single-meal-info">
           ${recipe.category ? `<p>${recipe.category}</p>` : ''}
       </div>
@@ -84,7 +89,6 @@ function addRecipeToDOM(recipe) {
   </div>
 `;
 }
-
 async function loginFun() {
   await fetch('https://www.mealprepapi.com/api/v1/auth/login', {
     method: 'POST',
@@ -223,11 +227,68 @@ showRecipeForm = () => {
   document.getElementById('recipe-form').style.display = 'block'
 }
 
+// Register user
+async function registerForm(){
+  const name = document.getElementById('rgt-name').value;
+  const email = document.getElementById('rgt-email').value;
+  const password = document.getElementById('rgt-password').value;
+
+  await fetch(`https://www.mealprepapi.com/api/v1/auth/register`, {
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      name: name,
+      email: email,
+      password: password
+    })
+  })
+  .then(response => response.json())
+  .then(results => {
+    console.log(results)
+  })
+}
+
+async function editRecipe(){
+  const id = document.getElementById('recipeId').innerHTML;
+  await fetch(`https://www.mealprepapi.com/api/v1/recipes/5e30c53696249e33805f92d9`,{
+    method: 'post',
+    headers: {
+      Authorization: 'Bearer ' + localStorage.token,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      vegan: true
+    })
+  })
+  .then(response => response.json())
+  .then(results => {
+    console.log(results);
+  })
+}
+
+async function deleteRecipe(){
+  const id = document.getElementById('recipeId').innerHTML;
+  await fetch(`https://www.mealprepapi.com/api/v1/recipes/${id}`,{
+    method: 'delete',
+    headers: {
+      Authorization: 'Bearer ' + localStorage.token
+    },
+  })
+  .then(response => response.json())
+  .then(results => {
+    console.log(results);
+  })
+}
+
+
 // Event listeners
 logout.addEventListener('click', logoutUser);
 login.addEventListener('click', loginFun);
 createRecipeForm.addEventListener('submit', createRecipe);
-photoForm.addEventListener('submit', uploadPhoto);
+//photoForm.addEventListener('submit', uploadPhoto);
+register.addEventListener('click', registerForm)
 addRecipeBtn.addEventListener('click', showRecipeForm);
 mealsEl.addEventListener('click', e => {
   const recipeInfo = e.path.find(item => {
@@ -247,7 +308,6 @@ function addFields() {
   const ingredientCont = document.getElementById('ingredientCont');
   let inputCount = document.querySelectorAll('#ingredientCont .ingredientName')
     .length;
-  console.log(inputCount);
   let divCont = document.createElement('DIV');
   divCont.setAttribute('id', `ingContainer_${inputCount}`);
   divCont.setAttribute('class', 'ingContainer');

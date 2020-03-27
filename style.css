@@ -9,8 +9,8 @@ body{
 }
 
 #recipe-form{
-    /* display: none; */
-    display: flex;
+    display: none;
+    /* display: flex; */
 }
 
 .add-recipe-container{

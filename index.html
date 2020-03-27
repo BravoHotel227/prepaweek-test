@@ -12,7 +12,8 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <input
+    <div id="auth-cont">
+      <input
       type="text"
       class="ipt-username"
       id="ipt-username"
@@ -24,8 +25,14 @@
       id="ipt-password"
       value="123456"
     />
+    <button id="login">Login</button> <br />
+    <input type="text" id="rgt-name" placeholder="Name">
+    <input type="text" id="rgt-email" placeholder="Email">
+    <input type="password" id="rgt-password" placeholder="Password">
+    <button id="register">Register</button> <br />
     <button id="logout">Logout</button>
-    <button id="login">Login</button>
+    </div>
+
     <div id="addRecipe">
       <button id="btn-addRecipe">Add Recipe</button>
     </div>
