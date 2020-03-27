@@ -7,7 +7,8 @@ const logout = document.getElementById('logout'),
   iptUsername = document.getElementById('ipt-username'),
   single_mealEl = document.getElementById('single-meal'),
   createRecipeForm = document.getElementById('createRecipe'),
-  photoForm = document.getElementById('photoUpload');
+  photoForm = document.getElementById('photoUpload'),
+  addRecipeBtn = document.getElementById('btn-addRecipe');
 
 let pageNum = 1;
 
@@ -217,11 +218,17 @@ async function uploadPhoto(e) {
     });
 }
 
+// Make the add recipe form visible 
+showRecipeForm = () => {
+  document.getElementById('recipe-form').style.display = 'block'
+}
+
 // Event listeners
 logout.addEventListener('click', logoutUser);
 login.addEventListener('click', loginFun);
 createRecipeForm.addEventListener('submit', createRecipe);
 photoForm.addEventListener('submit', uploadPhoto);
+addRecipeBtn.addEventListener('click', showRecipeForm);
 mealsEl.addEventListener('click', e => {
   const recipeInfo = e.path.find(item => {
     if (item.classList) {

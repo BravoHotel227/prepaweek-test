@@ -1,0 +1,29 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    width: 100%;
+    height: 100%;
+}
+
+#recipe-form{
+    /* display: none; */
+    display: flex;
+}
+
+.add-recipe-container{
+    display: flex;
+    width: 50%;
+    height: 100vh;
+    margin: auto;
+    background-color: grey;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.add-recipe-container input{
+    width: 25%;
+}
