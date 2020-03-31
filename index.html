@@ -14,85 +14,86 @@
   <body>
     <div id="auth-cont">
       <input
-      type="text"
-      class="ipt-username"
-      id="ipt-username"
-      value="zombiemage12343@hotmail.com"
-    />
-    <input
-      type="password"
-      class="ipt-password"
-      id="ipt-password"
-      value="123456"
-    />
-    <button id="login">Login</button> <br />
-    <input type="text" id="rgt-name" placeholder="Name">
-    <input type="text" id="rgt-email" placeholder="Email">
-    <input type="password" id="rgt-password" placeholder="Password">
-    <button id="register">Register</button> <br />
-    <button id="logout">Logout</button>
+        type="text"
+        class="ipt-username"
+        id="ipt-username"
+        value="zombiemage12343@hotmail.com"
+      />
+      <input
+        type="password"
+        class="ipt-password"
+        id="ipt-password"
+        value="123456"
+      />
+      <button id="login">Login</button> <br />
+      <input type="text" id="rgt-name" placeholder="Name" />
+      <input type="text" id="rgt-email" placeholder="Email" />
+      <input type="password" id="rgt-password" placeholder="Password" />
+      <button id="register">Register</button> <br />
+      <button id="logout">Logout</button>
     </div>
-
     <div id="addRecipe">
       <button id="btn-addRecipe">Add Recipe</button>
     </div>
     <div class="recipe-form" id="recipe-form">
       <div class="add-recipe-container">
-      <form id="createRecipe">
-        <input type="text" id="title" placeholder="Recipe title" />
-        <input type="text" id="prepTime" placeholder="Prep time" />
-        <select id="category">
-          <option value="null">Select one...</option>
-          <option value="Breakfast">Breakfast</option>
-          <option value="Lunch">Lunch</option>
-          <option value="Dinner">Dinner</option>
-          <option value="Snack">Snack</option>
-          <option value="Dessert">Dessert</option>
-        </select> <br />
-        <textarea
-          id="directions"
-          cols="70"
-          rows="10"
-          placeholder="Recipe directions..."
-        ></textarea>
-        <textarea
-          id="notes"
-          cols="70"
-          rows="8"
-          placeholder="Recipe notes..."
-        ></textarea> <br />
-        <input type="checkbox" id="vegan" />Vegan <br />
-        <input type="checkbox" id="glutenfree" />Gluten free <br />
-        <input type="file" id="image" accept="image/*" />
-        <div id="ingredientCont">
-          <div class="ingContainer" id="ingContainer_0">
-            <input
-              type="text"
-              class="ingredientName"
-              id="ingredientName_0"
-              placeholder=""
-            />
-            <input
-              type="text"
-              class="ingredientQty"
-              id="ingredientQty_0"
-              placeholder=""
-            />
+        <form id="createRecipe">
+          <input type="text" id="title" placeholder="Recipe title" />
+          <input type="text" id="prepTime" placeholder="Prep time" />
+          <select id="category">
+            <option value="null">Select one...</option>
+            <option value="Breakfast">Breakfast</option>
+            <option value="Lunch">Lunch</option>
+            <option value="Dinner">Dinner</option>
+            <option value="Snack">Snack</option>
+            <option value="Dessert">Dessert</option>
+          </select>
+          <br />
+          <textarea
+            id="directions"
+            cols="70"
+            rows="10"
+            placeholder="Recipe directions..."
+          ></textarea>
+          <textarea
+            id="notes"
+            cols="70"
+            rows="8"
+            placeholder="Recipe notes..."
+          ></textarea>
+          <br />
+          <input type="checkbox" id="vegan" />Vegan <br />
+          <input type="checkbox" id="glutenfree" />Gluten free <br />
+          <input type="file" id="image" accept="image/*" />
+          <div id="ingredientCont">
+            <div class="ingContainer" id="ingContainer_0">
+              <input
+                type="text"
+                class="ingredientName"
+                id="ingredientName_0"
+                placeholder=""
+              />
+              <input
+                type="text"
+                class="ingredientQty"
+                id="ingredientQty_0"
+                placeholder=""
+              />
+            </div>
           </div>
-        </div>
-        <input type="submit" />
-        <button class="addIngredientIpt" id="addIpt">
-          <i class="fas fa-plus" onclick="addFields()"></i>
-        </button>
-        <button class="removeIngredientIpt" id="removeIpt">
-          <i class="fas fa-minus" onclick="removeFields()"></i>
-        </button>
-      </form>
-      <!-- <form id="photoUpload">
+          <input type="submit" />
+          <button class="addIngredientIpt" id="addIpt">
+            <i class="fas fa-plus" onclick="addFields()"></i>
+          </button>
+          <button class="removeIngredientIpt" id="removeIpt">
+            <i class="fas fa-minus" onclick="removeFields()"></i>
+          </button>
+        </form>
+        <!-- <form id="photoUpload">
         <input type="file" id="image" accept="image/*" />
         <input type="submit" />
       </form> -->
-    </div>
+      </div>
     </div>
     <div id="result-heading"></div>
     <div class="meals" id="meals"></div>

@@ -69,7 +69,7 @@ function addRecipeToDOM(recipe) {
       ${recipe.ingredientNames[i]} - ${recipe.ingredientQtys[i]}
     `);
   }
-  const test = "test"
+  const test = 'test';
   single_mealEl.innerHTML = `
   <div class="single-meal">
       <h1>${recipe.title}</h1>
@@ -104,6 +104,7 @@ async function loginFun() {
     .then(results => {
       if (results.success === true) {
         alert('login was sucessful');
+        location.href = 'mainPage.html';
         //store token in local storage
         localStorage.token = results.token;
         getUser();
@@ -222,13 +223,13 @@ async function uploadPhoto(e) {
     });
 }
 
-// Make the add recipe form visible 
+// Make the add recipe form visible
 showRecipeForm = () => {
-  document.getElementById('recipe-form').style.display = 'block'
-}
+  document.getElementById('recipe-form').style.display = 'block';
+};
 
 // Register user
-async function registerForm(){
+async function registerForm() {
   const name = document.getElementById('rgt-name').value;
   const email = document.getElementById('rgt-email').value;
   const password = document.getElementById('rgt-password').value;
@@ -244,51 +245,53 @@ async function registerForm(){
       password: password
     })
   })
-  .then(response => response.json())
-  .then(results => {
-    console.log(results)
-  })
+    .then(response => response.json())
+    .then(results => {
+      console.log(results);
+    });
 }
 
-async function editRecipe(){
+async function editRecipe() {
   const id = document.getElementById('recipeId').innerHTML;
-  await fetch(`https://www.mealprepapi.com/api/v1/recipes/5e30c53696249e33805f92d9`,{
-    method: 'post',
-    headers: {
-      Authorization: 'Bearer ' + localStorage.token,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      vegan: true
-    })
-  })
-  .then(response => response.json())
-  .then(results => {
-    console.log(results);
-  })
+  await fetch(
+    `https://www.mealprepapi.com/api/v1/recipes/5e30c53696249e33805f92d9`,
+    {
+      method: 'post',
+      headers: {
+        Authorization: 'Bearer ' + localStorage.token,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        vegan: true
+      })
+    }
+  )
+    .then(response => response.json())
+    .then(results => {
+      console.log(results);
+    });
 }
 
-async function deleteRecipe(){
+async function deleteRecipe() {
   const id = document.getElementById('recipeId').innerHTML;
-  await fetch(`https://www.mealprepapi.com/api/v1/recipes/${id}`,{
+  await fetch(`https://www.mealprepapi.com/api/v1/recipes/${id}`, {
     method: 'delete',
     headers: {
       Authorization: 'Bearer ' + localStorage.token
-    },
+    }
   })
-  .then(response => response.json())
-  .then(results => {
-    console.log(results);
-  })
+    .then(response => response.json())
+    .then(results => {
+      console.log(results);
+    });
 }
-
 
 // Event listeners
 logout.addEventListener('click', logoutUser);
 login.addEventListener('click', loginFun);
 createRecipeForm.addEventListener('submit', createRecipe);
 //photoForm.addEventListener('submit', uploadPhoto);
-register.addEventListener('click', registerForm)
+register.addEventListener('click', registerForm);
 addRecipeBtn.addEventListener('click', showRecipeForm);
 mealsEl.addEventListener('click', e => {
   const recipeInfo = e.path.find(item => {
