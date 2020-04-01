@@ -1,19 +1,19 @@
 // DOM Elements
-const
-logout = document.getElementById('logout'),
+const logout = document.getElementById('logout'),
   resultHeading = document.getElementById('result-heading'),
   mealsEl = document.getElementById('meals'),
-  single_mealEl = document.getElementById('single-meal'),
+  single_mealEl = document.getElementById('container'),
   createRecipeForm = document.getElementById('createRecipe'),
   photoForm = document.getElementById('photoUpload'),
   addRecipeBtn = document.getElementById('btn-addRecipe'),
-  getRecipe = document.getElementById('get-recipe');
+  closeRecipeBtn = document.getElementById('close-btn');
+getRecipe = document.getElementById('get-recipe');
 
 let pageNum = 1;
 
 // Fetch all recipes owned by logged in user
 async function queryApi(pageNum) {
-  console.log("test");
+  console.log('test');
   await fetch(
     `https://www.mealprepapi.com/api/v1/recipes?user=${localStorage.userId}&&page=${pageNum}`
   )
@@ -68,9 +68,11 @@ function addRecipeToDOM(recipe) {
     `);
   }
   single_mealEl.innerHTML = `
-  <div class="single-meal">
-      <h1>${recipe.title}</h1>
-      <h2 id='recipeId'>${recipe._id}</h2>
+  <div class="meal-header">
+    ${recipe.title}
+    <button class="close-meal-btn" id="close-meal-btn" onclick="closeMeal()">&times;</button>
+  </div>
+  <div class="meal-body" id="sgl-meal">
       <button id='edit-recipe' onclick='editRecipe()'>Edit</button>
       <button id='delete-recipe' onclick='deleteRecipe()'>Delete</button>
       <div class="single-meal-info">
@@ -85,6 +87,9 @@ function addRecipeToDOM(recipe) {
       </div>
   </div>
 `;
+  const recipeForm = document.getElementById('add-recipe-container');
+  recipeForm.classList.remove('active');
+  single_mealEl.classList.add('active');
 }
 async function loginFun() {
   await fetch('https://www.mealprepapi.com/api/v1/auth/login', {
@@ -100,7 +105,6 @@ async function loginFun() {
     .then(response => response.json())
     .then(results => {
       if (results.success === true) {
-        alert('login was sucessful');
         location.href = 'mainPage.html';
         //store token in local storage
         localStorage.token = results.token;
@@ -204,11 +208,6 @@ async function uploadPhoto(e) {
     });
 }
 
-// Make the add recipe form visible
-function showRecipeForm() {
-  document.getElementById('recipe-form').style.display = 'block';
-};
-
 // Register user
 async function registerForm() {
   const name = document.getElementById('rgt-name').value;
@@ -234,19 +233,16 @@ async function registerForm() {
 
 async function editRecipe() {
   const id = document.getElementById('recipeId').innerHTML;
-  await fetch(
-    `https://www.mealprepapi.com/api/v1/recipes/5e30c53696249e33805f92d9`,
-    {
-      method: 'post',
-      headers: {
-        Authorization: 'Bearer ' + localStorage.token,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        vegan: true
-      })
-    }
-  )
+  await fetch(`https://www.mealprepapi.com/api/v1/recipes/${id}`, {
+    method: 'put',
+    headers: {
+      Authorization: 'Bearer ' + localStorage.token,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      vegan: false
+    })
+  })
     .then(response => response.json())
     .then(results => {
       console.log(results);
@@ -284,15 +280,29 @@ async function getUser() {
     });
 }
 
-function closeRecipeForm(){
-  document.getElementById('recipe-form').style.display = 'none';
+// Make the add recipe form visible
+function showRecipeForm() {
+  const singleMeal = document.getElementById('container');
+  singleMeal.classList.remove('active');
+  const recipeForm = document.getElementById('add-recipe-container');
+  recipeForm.classList.add('active');
 }
 
+function closeRecipeForm() {
+  const recipeForm = document.getElementById('add-recipe-container');
+  recipeForm.classList.remove('active');
+}
+
+function closeMeal() {
+  const singleMeal = document.getElementById('container');
+  singleMeal.classList.remove('active');
+}
 
 // Event listeners
 logout.addEventListener('click', logoutUser);
 createRecipeForm.addEventListener('submit', createRecipe);
 addRecipeBtn.addEventListener('click', showRecipeForm);
+closeRecipeBtn.addEventListener('click', closeRecipeForm);
 mealsEl.addEventListener('click', e => {
   const recipeInfo = e.path.find(item => {
     if (item.classList) {
