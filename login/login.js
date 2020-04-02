@@ -2,7 +2,8 @@ const logout = document.getElementById('logout'),
   login = document.getElementById('login'),
   iptPassword = document.getElementById('ipt-password'),
   iptUsername = document.getElementById('ipt-username'),
-  register = document.getElementById('register');
+  register = document.getElementById('register'),
+  closeRgt = document.getElementById('close-register');
 
 async function loginFun() {
   await fetch('https://www.mealprepapi.com/api/v1/auth/login', {
@@ -52,10 +53,15 @@ async function logoutUser() {
 
 // Register user
 async function registerForm() {
-  const name = document.getElementById('rgt-name').value;
-  const email = document.getElementById('rgt-email').value;
-  const password = document.getElementById('rgt-password').value;
-  const registerCheck = 
+  const name = document.getElementById('rgt-name').value,
+    email = document.getElementById('rgt-email').value,
+    password = document.getElementById('rgt-password').value,
+    registerCheck = document.getElementById('register-ipt');
+
+  registerCheck.classList.add('active');
+
+  iptUsername.disabled = true;
+  iptPassword.disabled = true;
 
 
   await fetch(`https://www.mealprepapi.com/api/v1/auth/register`, {
@@ -72,9 +78,25 @@ async function registerForm() {
     .then(response => response.json())
     .then(results => {
       console.log(results);
+      if(results.success === true){
+        alert('Registration was successful')
+        name.value ='';
+        email.value ='';
+        password.value='';
+        location.reload();
+      }
     });
+}
+
+function closeRegister(){
+  registerCheck = document.getElementById('register-ipt');
+  registerCheck.classList.remove('active');
+  iptUsername.disabled = false;
+  iptPassword.disabled = false;
+
 }
 
 // Event listeners
 login.addEventListener('click', loginFun);
 register.addEventListener('click', registerForm);
+closeRgt.addEventListener('click', closeRegister);

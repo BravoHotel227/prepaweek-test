@@ -17,6 +17,7 @@
 }
 
 #auth-cont {
+    display: flex;
   margin: auto;
   margin-top: 25vh;
   width: 500px;
@@ -25,6 +26,17 @@
   padding: 5px;
   box-shadow: 3px 3px 9px #727070;
   border-radius: 25px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.login-ipt{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
 }
 
 h1 {
@@ -47,29 +59,41 @@ input[type='password'] {
 }
 
 #ipt-username {
-  margin-top: 5vh;
+  margin-top: 10vh;
 }
 
 button {
   background-color: #6e3b3b;
   color: white;
   padding: 14px 20px;
-  margin: 8px 0px;
   border: none;
   border-radius: 25px;
   cursor: pointer;
-  width: 100%;
+  width: 50%;
+}
+
+#login{
+    margin-top: 1em;
 }
 #content {
-  margin: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
 }
 .register-ipt {
   overflow: hidden;
-  transform: translate(0%, -50%) scale(0);
-  transition: 100ms ease-in-out;
+  transition: 300ms ease-in;
+  opacity: 0;
   line-height: 0;
   padding: 0 1em;
   color: transparent;
+  height: 10px;
+}
+
+#register{
+    margin-top: 2vh;
 }
 
 .register-ipt,
@@ -77,17 +101,36 @@ input {
   border: transparent;
 }
 
+#rgt-name{
+    margin-top: 0vh;
+}
+
 .register-ipt.active {
   line-height: 1.5;
   padding-top: 1em;
   padding-bottom: 1em;
   color: black;
-  transform: translate(0%, -50%) scale(1);
+  opacity: 1;
+  height: auto;
 }
 
+.buttons{
+  width: 100%;
+}
+
+#close-register{
+  width: 25px;
+  padding: 0px;
+  margin-left: 90%;
+  height: 25px;
+  font-size: 1.2rem;
+  background-color: transparent;
+  color: #6e3b3b;
+  border: 1px solid #6e3b3b;
+}
 /* Main Page Styling */
 .main-body {
-  background-color: #f3cf7a;
+  background-color: #f5f5f5;
 }
 
 .header {
@@ -95,7 +138,7 @@ input {
   width: 100vw;
   height: 10vh;
   min-height: 100px;
-  background-color: #be6a15;
+  background-color: #6e3b3b;
   justify-content: flex-end;
   padding: 10px;
 }
@@ -110,7 +153,7 @@ input {
 }
 
 .header button:hover {
-  background-color: #be6a15;
+  background-color: #f3cf7a;
   color: #6e3b3b;
   font-weight: bold;
 }
@@ -158,6 +201,12 @@ input {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+.meal-btn{
+  display: flex;
+  width: 50%;
+  padding-bottom: 10px;
 }
 
 .main ul {
@@ -234,3 +283,18 @@ input {
 .recipe-form {
   padding: 20px;
 }
+
+
+/* Media Queries */
+ @media (max-height:750px){
+    #auth-cont {
+        margin: auto;
+        margin-top: 15vh;
+        width: 500px;
+        height: auto;
+        background-color: #f5f5f5;
+        padding: 5px;
+        box-shadow: 3px 3px 9px #727070;
+        border-radius: 25px;
+      }
+ }

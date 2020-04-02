@@ -70,11 +70,14 @@ function addRecipeToDOM(recipe) {
   single_mealEl.innerHTML = `
   <div class="meal-header">
     ${recipe.title}
+    <span id="recipeId" style="display:none">${recipe.id}</span>
     <button class="close-meal-btn" id="close-meal-btn" onclick="closeMeal()">&times;</button>
   </div>
   <div class="meal-body" id="sgl-meal">
+    <div class="meal-btn">
       <button id='edit-recipe' onclick='editRecipe()'>Edit</button>
       <button id='delete-recipe' onclick='deleteRecipe()'>Delete</button>
+    </div>
       <div class="single-meal-info">
           ${recipe.category ? `<p>${recipe.category}</p>` : ''}
       </div>
@@ -90,29 +93,6 @@ function addRecipeToDOM(recipe) {
   const recipeForm = document.getElementById('add-recipe-container');
   recipeForm.classList.remove('active');
   single_mealEl.classList.add('active');
-}
-async function loginFun() {
-  await fetch('https://www.mealprepapi.com/api/v1/auth/login', {
-    method: 'POST',
-    headers: {
-      'Content-type': 'application/json'
-    },
-    body: JSON.stringify({
-      email: iptUsername.value,
-      password: iptPassword.value
-    })
-  })
-    .then(response => response.json())
-    .then(results => {
-      if (results.success === true) {
-        location.href = 'mainPage.html';
-        //store token in local storage
-        localStorage.token = results.token;
-        getUser();
-      } else {
-        alert('Incorrect details');
-      }
-    });
 }
 
 async function logoutUser() {
@@ -208,29 +188,6 @@ async function uploadPhoto(e) {
     });
 }
 
-// Register user
-async function registerForm() {
-  const name = document.getElementById('rgt-name').value;
-  const email = document.getElementById('rgt-email').value;
-  const password = document.getElementById('rgt-password').value;
-
-  await fetch(`https://www.mealprepapi.com/api/v1/auth/register`, {
-    method: 'post',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      name: name,
-      email: email,
-      password: password
-    })
-  })
-    .then(response => response.json())
-    .then(results => {
-      console.log(results);
-    });
-}
-
 async function editRecipe() {
   const id = document.getElementById('recipeId').innerHTML;
   await fetch(`https://www.mealprepapi.com/api/v1/recipes/${id}`, {
@@ -246,6 +203,7 @@ async function editRecipe() {
     .then(response => response.json())
     .then(results => {
       console.log(results);
+      location.reload();
     });
 }
 
@@ -260,6 +218,7 @@ async function deleteRecipe() {
     .then(response => response.json())
     .then(results => {
       console.log(results);
+      location.reload();
     });
 }
 
