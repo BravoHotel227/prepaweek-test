@@ -6,20 +6,15 @@ const logout = document.getElementById('logout'),
   createRecipeForm = document.getElementById('createRecipe'),
   photoForm = document.getElementById('photoUpload'),
   addRecipeBtn = document.getElementById('btn-addRecipe'),
-  closeRecipeBtn = document.getElementById('close-btn');
-getRecipe = document.getElementById('get-recipe');
+  closeRecipeBtn = document.getElementById('close-btn'),
+  getRecipe = document.getElementById('get-recipe'),
+  loading = document.getElementById('loading');
 
 let pageNum = 1;
 
-if (document.readyState === 'complete') {
-  console.log("object")
-  document.getElementsByTagName('body').innerHTML +=
-    '<img src="spinner.gif" width="200px" height="200px">';
-}
-
 // Fetch all recipes owned by logged in user
 async function queryApi(pageNum) {
-  console.log('test');
+  loading.classList.add('loading-active');
   await fetch(
     `https://www.mealprepapi.com/api/v1/recipes?user=${localStorage.userId}&&page=${pageNum}`
   )
@@ -53,6 +48,7 @@ async function queryApi(pageNum) {
         `;
       }
     });
+  loading.classList.remove('loading-active');
 }
 
 // Fetch recipe by id
@@ -96,8 +92,6 @@ function addRecipeToDOM(recipe) {
       </div>
   </div>
 `;
-  const recipeForm = document.getElementById('add-recipe-container');
-  recipeForm.classList.remove('active');
   single_mealEl.classList.add('active');
 }
 
@@ -247,8 +241,6 @@ async function getUser() {
 
 // Make the add recipe form visible
 function showRecipeForm() {
-  const singleMeal = document.getElementById('container');
-  singleMeal.classList.remove('active');
   const recipeForm = document.getElementById('add-recipe-container');
   recipeForm.classList.add('active');
 }

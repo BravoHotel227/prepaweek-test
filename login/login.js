@@ -8,7 +8,7 @@ const logout = document.getElementById('logout'),
 
 async function loginFun() {
   // spinner.innerHTML = `<img src="../2.gif" width="200px" height="200px" />`;
-  spinner.classList.add('active');
+  spinner.classList.add('spinner-active');
   await fetch('https://www.mealprepapi.com/api/v1/auth/login', {
     method: 'POST',
     headers: {
