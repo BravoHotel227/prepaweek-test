@@ -7,6 +7,40 @@
 
 /* Login page style */
 
+.spinner {
+  display: none;
+  border: 16px solid #f5f5f5;
+  border-radius: 50%;
+  border-top: 16px solid #6e3b3b;
+  width: 120px;
+  height: 120px;
+}
+
+.active {
+  display: block;
+  -webkit-animation: spin 1s linear infinite;
+  animation: spin 1s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 #login-page {
   display: flex;
   align-items: center;
@@ -17,7 +51,7 @@
 }
 
 #auth-cont {
-    display: flex;
+  display: flex;
   margin: auto;
   margin-top: 25vh;
   width: 500px;
@@ -31,16 +65,16 @@
   flex-direction: column;
 }
 
-.login-ipt{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 80%;
+.login-ipt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 80%;
 }
 
 h1 {
-    padding-top: 5px;
+  padding-top: 5px;
   text-align: center;
 }
 
@@ -72,8 +106,8 @@ button {
   width: 50%;
 }
 
-#login{
-    margin-top: 1em;
+#login {
+  margin-top: 1em;
 }
 #content {
   display: flex;
@@ -92,8 +126,8 @@ button {
   height: 10px;
 }
 
-#register{
-    margin-top: 2vh;
+#register {
+  margin-top: 2vh;
 }
 
 .register-ipt,
@@ -101,8 +135,8 @@ input {
   border: transparent;
 }
 
-#rgt-name{
-    margin-top: 0vh;
+#rgt-name {
+  margin-top: 0vh;
 }
 
 .register-ipt.active {
@@ -114,11 +148,11 @@ input {
   height: auto;
 }
 
-.buttons{
+.buttons {
   width: 100%;
 }
 
-#close-register{
+#close-register {
   width: 25px;
   padding: 0px;
   margin-left: 90%;
@@ -203,7 +237,7 @@ input {
   justify-content: center;
 }
 
-.meal-btn{
+.meal-btn {
   display: flex;
   width: 50%;
   padding-bottom: 10px;
@@ -284,17 +318,16 @@ input {
   padding: 20px;
 }
 
-
 /* Media Queries */
- @media (max-height:750px){
-    #auth-cont {
-        margin: auto;
-        margin-top: 15vh;
-        width: 500px;
-        height: auto;
-        background-color: #f5f5f5;
-        padding: 5px;
-        box-shadow: 3px 3px 9px #727070;
-        border-radius: 25px;
-      }
- }
+@media (max-height: 750px) {
+  #auth-cont {
+    margin: auto;
+    margin-top: 15vh;
+    width: 500px;
+    height: auto;
+    background-color: #f5f5f5;
+    padding: 5px;
+    box-shadow: 3px 3px 9px #727070;
+    border-radius: 25px;
+  }
+}

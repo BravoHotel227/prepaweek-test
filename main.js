@@ -11,6 +11,12 @@ getRecipe = document.getElementById('get-recipe');
 
 let pageNum = 1;
 
+if (document.readyState === 'complete') {
+  console.log("object")
+  document.getElementsByTagName('body').innerHTML +=
+    '<img src="spinner.gif" width="200px" height="200px">';
+}
+
 // Fetch all recipes owned by logged in user
 async function queryApi(pageNum) {
   console.log('test');
