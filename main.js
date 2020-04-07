@@ -73,13 +73,13 @@ function addRecipeToDOM(recipe) {
   <div class="meal-header">
     ${recipe.title}
     <span id="recipeId" style="display:none">${recipe.id}</span>
-    <button class="close-meal-btn" id="close-meal-btn" onclick="closeMeal()">&times;</button>
-  </div>
-  <div class="meal-body" id="sgl-meal">
     <div class="meal-btn">
       <button id='edit-recipe' onclick='editRecipe()'>Edit</button>
       <button id='delete-recipe' onclick='deleteRecipe()'>Delete</button>
+      <button class="close-meal-btn" id="close-meal-btn" onclick="closeMeal()">&times;</button>
     </div>
+  </div>
+  <div class="meal-body" id="sgl-meal">
       <div class="single-meal-info">
           ${recipe.category ? `<p>${recipe.category}</p>` : ''}
       </div>

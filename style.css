@@ -1,8 +1,29 @@
+/*  Global Styling */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: Arial, Helvetica, sans-serif;
+  --primary-color: #6e3b3b;
+}
+
+button {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 12px 10px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  width: 50%;
+  transition: all 0.5s ease;
+  -webkit-transition: all 0.5s ease;
+}
+  
+button:hover{
+  background-color: #f5f5f5;
+  color: var(--primary-color);
+  font-weight: bold;
 }
 
 /* Login page style */
@@ -11,11 +32,12 @@
   display: none;
   border: 10px solid #f5f5f5;
   border-radius: 50%;
-  border-top: 10px solid #6e3b3b;
+  border-top: 10px solid var(--primary-color);
   width: 50px;
   height: 50px;
   position: fixed;
   -webkit-animation: spin 1s linear infinite;
+  animation: spin 1s linear infinite;
 }
 
 .spinner-active {
@@ -47,7 +69,7 @@
   align-items: center;
   justify-content: center;
   /* background-color: #f2f3f4; */
-  background-color: #6e3b3b;
+  background-color: var(--primary-color);
   overflow: hidden;
 }
 
@@ -95,16 +117,6 @@ input[type='password'] {
 
 #ipt-username {
   margin-top: 10vh;
-}
-
-button {
-  background-color: #6e3b3b;
-  color: white;
-  padding: 14px 20px;
-  border: none;
-  border-radius: 25px;
-  cursor: pointer;
-  width: 50%;
 }
 
 #login {
@@ -160,8 +172,8 @@ input {
   height: 25px;
   font-size: 1.2rem;
   background-color: transparent;
-  color: #6e3b3b;
-  border: 1px solid #6e3b3b;
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
 }
 /* Main Page Styling */
 .main-body {
@@ -174,7 +186,7 @@ input {
   display: none;
   border: 16px solid #f5f5f5;
   border-radius: 50%;
-  border-top: 16px solid #6e3b3b;
+  border-top: 16px solid var(--primary-color);
   -webkit-animation: spin 1s linear infinite;
   animation: spin 1s linear infinite;
   width: 120px;
@@ -193,23 +205,14 @@ input {
   width: 100vw;
   height: 10vh;
   min-height: 100px;
-  background-color: #6e3b3b;
+  background-color: var(--primary-color);
   justify-content: flex-end;
   padding: 10px;
 }
 
 .header button {
   margin: 1rem;
-  font-size: 1rem;
   width: auto;
-  font-weight: bold;
-  transition: all 0.4s ease;
-  -webkit-transition: all 0.4s ease;
-}
-
-.header button:hover {
-  background-color: #f3cf7a;
-  color: #6e3b3b;
   font-weight: bold;
 }
 
@@ -253,6 +256,7 @@ input {
 
 .meal-btn {
   display: flex;
+  justify-content: flex-end;
   width: 50%;
   padding-bottom: 10px;
 }
@@ -264,16 +268,18 @@ input {
 .close-meal-btn {
   width: 40px;
   height: 40px;
-  padding: 8px;
+  padding: 0px;
   background: none;
-  font-size: 1.5rem;
+  color: var(--primary-color);
+  font-size: 2rem;
   font-weight: bold;
   cursor: pointer;
+  margin-left: 5px;
 }
 
 .close-meal-btn:hover {
-  background-color: #f2f3f4;
-  color: black;
+  background-color: var(--primary-color);
+  color: #f5f5f5;
 }
 
 .add-recipe-container {
@@ -340,6 +346,31 @@ input {
   width: 100vw;
   height: 100%;
   padding: 5px;
+}
+
+#edit-recipe{
+  width: 5vw;
+  min-width: 50px;
+  margin-right: 5px;
+  background-color: #f5f5f5;
+  color: var(--primary-color);
+  font-weight: bold;
+}
+#edit-recipe:hover{
+  background-color: var(--primary-color);
+  color: #f5f5f5;
+}
+
+#delete-recipe{
+  width: 5vw;
+  min-width: 70px;
+  background-color: #f5f5f5;
+  color: var(--primary-color);
+  font-weight: bold;
+}
+#delete-recipe:hover{
+  background-color: var(--primary-color);
+  color: #f5f5f5;
 }
 
 /* Media Queries */
