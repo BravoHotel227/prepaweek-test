@@ -16,19 +16,20 @@ let pageNum = 1;
 async function queryApi(pageNum) {
   loading.classList.add('loading-active');
   await fetch(
-    `https://www.mealprepapi.com/api/v1/recipes?user=${localStorage.userId}&&page=${pageNum}`
+    `https://www.mealprepapi.com/api/v1/recipes?user=${localStorage.userId}&&page=${pageNum}&&limit=15`
   )
-    .then(response => response.json())
-    .then(results => {
+    .then((response) => response.json())
+    .then((results) => {
       if (results.data === null) {
         resultHeading.innerHTML = `<p> No results found </p>`;
       } else {
         mealsEl.innerHTML = results.data
           .map(
-            recipe => `
+            (recipe) => `
           <div class="recipe">
             <div class="recipe-info" data-recipeID="${recipe._id}">
               <h3>${recipe.title}</h3>
+             <h5> Prep Time: ${recipe.prepTime} Serves: ${recipe.serves} </h5>
             </div>
           </div>
         `
@@ -37,14 +38,16 @@ async function queryApi(pageNum) {
       }
       if (results.pagination.next) {
         mealsEl.innerHTML += `
-         <button id="page-next" onclick="queryApi(${pageNum +
-           1})">Next Page</button>
+         <button id="page-next" onclick="queryApi(${
+           pageNum + 1
+         })">Next Page</button>
          `;
       }
       if (results.pagination.prev) {
         mealsEl.innerHTML += `
-        <button id="page-prev" onclick="queryApi(${pageNum -
-          1})">Previous Page</button>
+        <button id="page-prev" onclick="queryApi(${
+          pageNum - 1
+        })">Previous Page</button>
         `;
       }
     });
@@ -54,8 +57,8 @@ async function queryApi(pageNum) {
 // Fetch recipe by id
 function getRecipeById(recipeID) {
   fetch(`https://www.mealprepapi.com/api/v1/recipes/${recipeID}`)
-    .then(response => response.json())
-    .then(results => {
+    .then((response) => response.json())
+    .then((results) => {
       const recipe = results.data;
       addRecipeToDOM(recipe);
     });
@@ -87,7 +90,7 @@ function addRecipeToDOM(recipe) {
           <p>${recipe.directions}</p>
           <h2>Ingregients</h2>
           <ul>
-              ${ingredients.map(ing => `<li>${ing}</li>`).join('')}
+              ${ingredients.map((ing) => `<li>${ing}</li>`).join('')}
           <ul>
       </div>
   </div>
@@ -100,11 +103,11 @@ async function logoutUser() {
   await fetch('https://www.mealprepapi.com/api/v1/auth/logout', {
     headers: {
       'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + localStorage.token
-    }
+      Authorization: 'Bearer ' + localStorage.token,
+    },
   })
-    .then(response => response.json())
-    .then(results => {
+    .then((response) => response.json())
+    .then((results) => {
       if (results.success === true) {
         resultHeading.innerHTML = '';
         meals.innerHTML = '';
@@ -157,12 +160,12 @@ async function createRecipe(e) {
   await fetch('https://www.mealprepapi.com/api/v1/recipes', {
     method: 'post',
     headers: {
-      Authorization: 'Bearer ' + localStorage.token
+      Authorization: 'Bearer ' + localStorage.token,
     },
-    body: formData
+    body: formData,
   })
-    .then(response => response.json())
-    .then(results => {
+    .then((response) => response.json())
+    .then((results) => {
       console.log(results);
     });
 }
@@ -177,13 +180,13 @@ async function uploadPhoto(e) {
       method: 'post',
       headers: {
         Authorization: 'Bearer ' + localStorage.token,
-        'Content-Type': 'image/jpeg'
+        'Content-Type': 'image/jpeg',
       },
-      body: formData
+      body: formData,
     }
   )
-    .then(response => response.json())
-    .then(results => {
+    .then((response) => response.json())
+    .then((results) => {
       console.log(results);
     });
 }
@@ -194,14 +197,14 @@ async function editRecipe() {
     method: 'put',
     headers: {
       Authorization: 'Bearer ' + localStorage.token,
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      vegan: false
-    })
+      vegan: false,
+    }),
   })
-    .then(response => response.json())
-    .then(results => {
+    .then((response) => response.json())
+    .then((results) => {
       console.log(results);
       location.reload();
     });
@@ -212,11 +215,11 @@ async function deleteRecipe() {
   await fetch(`https://www.mealprepapi.com/api/v1/recipes/${id}`, {
     method: 'delete',
     headers: {
-      Authorization: 'Bearer ' + localStorage.token
-    }
+      Authorization: 'Bearer ' + localStorage.token,
+    },
   })
-    .then(response => response.json())
-    .then(results => {
+    .then((response) => response.json())
+    .then((results) => {
       console.log(results);
       location.reload();
     });
@@ -227,11 +230,11 @@ async function getUser() {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + localStorage.token
-    }
+      Authorization: 'Bearer ' + localStorage.token,
+    },
   })
-    .then(response => response.json())
-    .then(results => {
+    .then((response) => response.json())
+    .then((results) => {
       if (results.success === true) {
         localStorage.userId = results.data._id;
         queryApi(pageNum);
@@ -260,8 +263,8 @@ logout.addEventListener('click', logoutUser);
 createRecipeForm.addEventListener('submit', createRecipe);
 addRecipeBtn.addEventListener('click', showRecipeForm);
 closeRecipeBtn.addEventListener('click', closeRecipeForm);
-mealsEl.addEventListener('click', e => {
-  const recipeInfo = e.path.find(item => {
+mealsEl.addEventListener('click', (e) => {
+  const recipeInfo = e.path.find((item) => {
     if (item.classList) {
       return item.classList.contains('recipe-info');
     } else {

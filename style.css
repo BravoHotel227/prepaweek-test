@@ -338,7 +338,12 @@ input {
   padding: 20px;
 }
 .recipe {
+  font-size: 1rem;
   width: 50vw;
+  border: 1px solid;
+  border-radius: 25px;
+  padding: 1px 10px;
+  margin-bottom:1px;
 }
 
 .content {
