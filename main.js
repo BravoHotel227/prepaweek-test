@@ -101,9 +101,13 @@ function addRecipeToDOM(recipe) {
       <div class="single-meal-category">
           ${recipe.category ? `<p>${recipe.category}</p>` : ''}
       </div>
+      <div class="single-meal-types">
+       ${recipe.vegan ? '<span class="vegan-card">Vegan</span>' : ''}
+       ${recipe.glutenFree ? '<span class="gluten-card">Gluten Free</span>' : ''}
+      </div>
       <div class="main">
           <p>${recipe.directions}</p>
-          <h2>Ingregients</h2>
+          <h2 class="ingregients">Ingregients</h2>
           <ul>
               ${ingredients.map((ing) => `<li>${ing}</li>`).join('')}
           <ul>
@@ -219,7 +223,7 @@ async function editRecipe() {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      vegan: false,
+      glutenFree: false,
     }),
   })
     .then((response) => response.json())

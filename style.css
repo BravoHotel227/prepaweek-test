@@ -261,7 +261,26 @@ input {
   margin-bottom: 1rem;
   font-style: italic;
   font-weight: bold;
+  color: #be6a15;
   color: #f3cf7a;
+}
+
+.vegan-card{
+  border: 1px solid #be6a15;
+  background-color: #be6a15;
+  border-radius: 50px;
+  padding: 5px;
+  color: white;
+  /* width: 100px;
+  height: 50px; */
+}
+
+.gluten-card{
+  border: 1px solid #be6a15;
+  background-color: #be6a15;
+  border-radius: 50px;
+  padding: 5px;
+  color: white;
 }
 
 .meal-body {
@@ -279,6 +298,11 @@ input {
   justify-content: flex-end;
   width: 50%;
   padding-bottom: 10px;
+}
+
+.ingregients{
+   width: 100%;
+   border-bottom: 1px solid #727070;
 }
 
 .main ul {
