@@ -1,5 +1,6 @@
 // DOM Elements
 const logout = document.getElementById('logout'),
+  profile = document.getElementById('profile'),
   resultHeading = document.getElementById('result-heading'),
   mealsEl = document.getElementById('meals'),
   single_mealEl = document.getElementById('container'),
@@ -8,7 +9,8 @@ const logout = document.getElementById('logout'),
   addRecipeBtn = document.getElementById('btn-addRecipe'),
   closeRecipeBtn = document.getElementById('close-btn'),
   getRecipe = document.getElementById('get-recipe'),
-  loading = document.getElementById('loading');
+  loading = document.getElementById('loading'),
+  emptyRecipe = document.getElementById('empty-recipe');
 
 let pageNum = 1;
 
@@ -23,6 +25,7 @@ async function queryApi(pageNum) {
       if (results.data === null) {
         resultHeading.innerHTML = `<p> No results found </p>`;
       } else {
+        console.log(results.data);
         mealsEl.innerHTML = results.data
           .map(
             (recipe) => `
@@ -36,15 +39,25 @@ async function queryApi(pageNum) {
           )
           .join('');
       }
-      if (results.pagination.next) {
-        mealsEl.innerHTML += `
+      if (results.data.length === 0) {
+        emptyRecipe.classList.add('empty-recipe');
+        emptyRecipe.innerHTML = `<h3 class="emptyRecipes">Add some recipes...</h3>`;
+      } else {
+        emptyRecipe.classList.remove('empty-recipe');
+        emptyRecipe.innerHTML = '';
+        mealsEl.innerHTML += `<div id="page-buttons" class="page-buttons"></div>`;
+      }
+      if (results.data.length >= 15) {
+        const pageButtons = document.getElementById('page-buttons');
+        pageButtons.innerHTML += `
          <button id="page-next" onclick="queryApi(${
            pageNum + 1
          })">Next Page</button>
          `;
       }
       if (results.pagination.prev) {
-        mealsEl.innerHTML += `
+        const pageButtons = document.getElementById('page-buttons');
+        pageButtons.innerHTML += `
         <button id="page-prev" onclick="queryApi(${
           pageNum - 1
         })">Previous Page</button>
@@ -74,7 +87,6 @@ function addRecipeToDOM(recipe) {
   }
   single_mealEl.innerHTML = `
   <div class="meal-header">
-    ${recipe.title}
     <span id="recipeId" style="display:none">${recipe.id}</span>
     <div class="meal-btn">
       <button id='edit-recipe' onclick='editRecipe()'>Edit</button>
@@ -82,8 +94,11 @@ function addRecipeToDOM(recipe) {
       <button class="close-meal-btn" id="close-meal-btn" onclick="closeMeal()">&times;</button>
     </div>
   </div>
+  <div class="meal-title">
+    ${recipe.title}
+  </div>
   <div class="meal-body" id="sgl-meal">
-      <div class="single-meal-info">
+      <div class="single-meal-category">
           ${recipe.category ? `<p>${recipe.category}</p>` : ''}
       </div>
       <div class="main">
@@ -120,6 +135,10 @@ async function logoutUser() {
         alert('Logout failed...');
       }
     });
+}
+
+function showProfile() {
+  location.href = './profile/profile.html';
 }
 
 async function createRecipe(e) {
@@ -260,6 +279,7 @@ function closeMeal() {
 
 // Event listeners
 logout.addEventListener('click', logoutUser);
+profile.addEventListener('click', showProfile);
 createRecipeForm.addEventListener('submit', createRecipe);
 addRecipeBtn.addEventListener('click', showRecipeForm);
 closeRecipeBtn.addEventListener('click', closeRecipeForm);

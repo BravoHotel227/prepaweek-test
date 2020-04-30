@@ -3,14 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://kit.fontawesome.com/9a6b107314.js"
+      crossorigin="anonymous"
+    ></script>
     <link rel="stylesheet" href="style.css" />
-    <title>Document</title>
+    <title>Home</title>
   </head>
   <body class="main-body" onload="getUser()">
     <div class="header">
       <button id="btn-addRecipe">Add Recipe</button>
+      <button id="profile">Profile</button>
       <button id="logout">Logout</button>
     </div>
+    <div id="empty-recipe"></div>
     <div class="loading" id="loading"></div>
     <div id="addRecipe"></div>
     <div class="recipe-form" id="recipe-form">
