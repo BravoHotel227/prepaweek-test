@@ -10,7 +10,8 @@ const logout = document.getElementById('logout'),
   closeRecipeBtn = document.getElementById('close-btn'),
   getRecipe = document.getElementById('get-recipe'),
   loading = document.getElementById('loading'),
-  emptyRecipe = document.getElementById('empty-recipe');
+  emptyRecipe = document.getElementById('empty-recipe'),
+  formHeading = document.getElementById('form-heading');
 
 let pageNum = 1;
 
@@ -94,16 +95,21 @@ function addRecipeToDOM(recipe) {
       <button class="close-meal-btn" id="close-meal-btn" onclick="closeMeal()">&times;</button>
     </div>
   </div>
-  <div class="meal-title">
+  <div class="meal-title" id="meal-title">
     ${recipe.title}
   </div>
   <div class="meal-body" id="sgl-meal">
       <div class="single-meal-category">
           ${recipe.category ? `<p>${recipe.category}</p>` : ''}
       </div>
+      <div class="recipe-info">
+        Prep time: ${recipe.prepTime} Serves: ${recipe.serves}
+      </div>
       <div class="single-meal-types">
        ${recipe.vegan ? '<span class="vegan-card">Vegan</span>' : ''}
-       ${recipe.glutenFree ? '<span class="gluten-card">Gluten Free</span>' : ''}
+       ${
+         recipe.glutenFree ? '<span class="gluten-card">Gluten Free</span>' : ''
+       }
       </div>
       <div class="main">
           <p>${recipe.directions}</p>
@@ -215,22 +221,55 @@ async function uploadPhoto(e) {
 }
 
 async function editRecipe() {
+  formHeading.innerHTML = 'Edit Recipe';
+
+  const recipeForm = document.getElementById('add-recipe-container');
+  recipeForm.classList.add('active');
+  // Get form elements
+  const title = document.getElementById('title'),
+    prepTime = document.getElementById('prepTime'),
+    category = document.getElementById('category'),
+    directions = document.getElementById('directions'),
+    notes = document.getElementById('notes'),
+    vegan = document.getElementById('vegan'),
+    gluten = document.getElementById('glutenfree');
   const id = document.getElementById('recipeId').innerHTML;
   await fetch(`https://www.mealprepapi.com/api/v1/recipes/${id}`, {
-    method: 'put',
+    method: 'get',
     headers: {
       Authorization: 'Bearer ' + localStorage.token,
-      'Content-Type': 'application/json',
     },
-    body: JSON.stringify({
-      glutenFree: false,
-    }),
   })
     .then((response) => response.json())
     .then((results) => {
-      console.log(results);
-      location.reload();
+      console.log(results.data);
+      title.value = results.data.title;
+      prepTime.value = results.data.prepTime;
+      category.value = results.data.category;
+      directions.value = results.data.directions;
+      notes.value = results.data.notes;
+      vegan.checked = results.data.vegan;
+      gluten.checked = results.data.glutenFree;
     });
+
+  // Make sure to add clear form for add recipe!!!!!!!!!!!!!!!
+
+  // const id = document.getElementById('recipeId').innerHTML;
+  // await fetch(`https://www.mealprepapi.com/api/v1/recipes/${id}`, {
+  //   method: 'put',
+  //   headers: {
+  //     Authorization: 'Bearer ' + localStorage.token,
+  //     'Content-Type': 'application/json',
+  //   },
+  //   body: JSON.stringify({
+  //     glutenFree: false,
+  //   }),
+  // })
+  //   .then((response) => response.json())
+  //   .then((results) => {
+  //     console.log(results);
+  //     location.reload();
+  //   });
 }
 
 async function deleteRecipe() {
@@ -267,6 +306,7 @@ async function getUser() {
 
 // Make the add recipe form visible
 function showRecipeForm() {
+  formHeading.innerHTML = 'Add Recipe';
   const recipeForm = document.getElementById('add-recipe-container');
   recipeForm.classList.add('active');
 }
