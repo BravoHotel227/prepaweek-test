@@ -5,6 +5,7 @@ const logout = document.getElementById('logout'),
   mealsEl = document.getElementById('meals'),
   single_mealEl = document.getElementById('container'),
   createRecipeForm = document.getElementById('createRecipe'),
+  submitForm = document.getElementById('submit-form'),
   photoForm = document.getElementById('photoUpload'),
   addRecipeBtn = document.getElementById('btn-addRecipe'),
   closeRecipeBtn = document.getElementById('close-btn'),
@@ -102,8 +103,8 @@ function addRecipeToDOM(recipe) {
       <div class="single-meal-category">
           ${recipe.category ? `<p>${recipe.category}</p>` : ''}
       </div>
-      <div class="recipe-info">
-        Prep time: ${recipe.prepTime} Serves: ${recipe.serves}
+      <div class="recipe-time-serves">
+        <h5>Prep time: ${recipe.prepTime} Serves: ${recipe.serves}</h5>
       </div>
       <div class="single-meal-types">
        ${recipe.vegan ? '<span class="vegan-card">Vegan</span>' : ''}
@@ -321,10 +322,17 @@ function closeMeal() {
   singleMeal.classList.remove('active');
 }
 
+function clear(e){
+  e.preventDefault();
+  // document.getElementById('createRecipe').reset();
+  console.log("Test");
+}
+
+
 // Event listeners
 logout.addEventListener('click', logoutUser);
 profile.addEventListener('click', showProfile);
-createRecipeForm.addEventListener('submit', createRecipe);
+submitForm.addEventListener('click', createRecipe);
 addRecipeBtn.addEventListener('click', showRecipeForm);
 closeRecipeBtn.addEventListener('click', closeRecipeForm);
 mealsEl.addEventListener('click', (e) => {
@@ -348,8 +356,8 @@ function addFields() {
   let divCont = document.createElement('DIV');
   divCont.setAttribute('id', `ingContainer_${inputCount}`);
   divCont.setAttribute('class', 'ingContainer');
-  divCont.innerHTML += `<input type="text" class="ingredientName" id="ingredientName_${inputCount}" placeholder="">`;
-  divCont.innerHTML += `<input type="text" class="ingredientQty" id="ingredientQty_${inputCount}" placeholder="">`;
+  divCont.innerHTML += `<input type="text" class="ingredientName" id="ingredientName_${inputCount}" placeholder="Ingredient Name">`;
+  divCont.innerHTML += `<input type="text" class="ingredientQty" id="ingredientQty_${inputCount}" placeholder="Ingreditent Quantity">`;
   document.getElementById('ingredientCont').appendChild(divCont);
 }
 

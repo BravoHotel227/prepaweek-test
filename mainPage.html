@@ -27,10 +27,12 @@
         </div>
         <div class="recipe-form">
           <form id="createRecipe">
+            <div class="top-half">
+            <div class="form-left-half">
             <input type="text" id="title" placeholder="Recipe title" />
             <input type="text" id="prepTime" placeholder="Prep time" />
             <select id="category">
-              <option value="null">Select one...</option>
+              <option value="null">Category...</option>
               <option value="Breakfast">Breakfast</option>
               <option value="Lunch">Lunch</option>
               <option value="Dinner">Dinner</option>
@@ -40,48 +42,66 @@
             <br />
             <textarea
               id="directions"
-              cols="70"
-              rows="10"
+              cols="50"
+              rows="7"
               placeholder="Recipe directions..."
             ></textarea>
             <textarea
               id="notes"
-              cols="70"
-              rows="8"
+              cols="50"
+              rows="7"
               placeholder="Recipe notes..."
             ></textarea>
             <br />
-            <input type="checkbox" id="vegan" />Vegan <br />
-            <input type="checkbox" id="glutenfree" />Gluten free <br />
+            <div class="check-boxes">
+              <div class="check-box-vegan">
+                <input type="checkbox" id="vegan" />Vegan
+              </div>
+              <div class="check-box-gluten">
+                <input type="checkbox" id="glutenfree" />Gluten free
+              </div>
+            </div>
             <input type="file" id="image" accept="image/*" />
+          </div>
+          <div class="form-right-half">
             <div id="ingredientCont">
               <div class="ingContainer" id="ingContainer_0">
                 <input
                   type="text"
                   class="ingredientName"
                   id="ingredientName_0"
-                  placeholder=""
+                  placeholder="Ingredient Name"
                 />
                 <input
                   type="text"
                   class="ingredientQty"
                   id="ingredientQty_0"
-                  placeholder=""
+                  placeholder="Ingredient Quantity"
                 />
               </div>
             </div>
-            <input type="submit" />
+            <div class="ingredient-btn">
+              <button type="button" class="addIngredientIpt" onclick="addFields()" id="addIpt">
+                &plus;
+              </button>
+              <button
+                type="button"
+                class="removeIngredientIpt"
+                onclick="removeFields()"
+                id="removeIpt"
+              >
+                &minus;
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="bottom-half">
+            <div class="form-btns">
+              <button type="button" id="clear" onclick="clear">Reset Form</button>
+              <button type="button" id="submit-form">Submit</button>
+            </div>
+          </div>
           </form>
-          <button class="addIngredientIpt" onclick="addFields()" id="addIpt">
-            &plus;
-          </button>
-          <button
-            class="removeIngredientIpt"
-            onclick="removeFields()"
-            id="removeIpt"
-          >
-            &minus;
-          </button>
         </div>
         <!-- <form id="photoUpload">
         <input type="file" id="image" accept="image/*" />
