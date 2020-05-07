@@ -178,7 +178,7 @@ input {
 /* Main Page Styling */
 .main-body {
   background-color: #f5f5f5;
-  /* overflow: hidden; */
+  overflow-x: hidden;
 }
 
 .loading {
@@ -241,9 +241,10 @@ input {
 .main{
   text-align: justify;
   text-justify: inter-word;
-}ß
+  margin-top: 10px;
+}
 .recipe-time-serves{
-  padding-bottom: 10px;
+  padding: 10px;
   font-style: italic;
 }
 
@@ -261,13 +262,11 @@ input {
 .meal-title {
   font-size: 2rem;
   font-weight: bold;
-  margin-bottom: 1rem;
   color: var(--primary-color);
 }
 
 .single-meal-category {
   font-size: 1.5rem;
-  margin-bottom: 1rem;
   font-style: italic;
   font-weight: bold;
   color: #be6a15;
@@ -349,7 +348,7 @@ input {
   height: auto;
   margin: auto;
   background-color: #f5f5f5;
-  box-shadow: 3px 3px 9px #e7e7e7;
+  box-shadow: 3px 3px 9px #727070;
   text-align: center;
   z-index: 10;
 }
@@ -380,11 +379,12 @@ input {
   font-size: 1.5rem;
   font-weight: bold;
   cursor: pointer;
+  background-color: var(--primary-color);
 }
 
 .close-btn:hover {
   background-color: #f2f3f4;
-  color: black;
+  color: var(--primary-color);
 }
 
 .recipe-form {
@@ -413,35 +413,42 @@ input {
   align-items: center;
 }
 #title{
-  width: 200px;
+  width: 98%;
 }
 #prepTime{
-  width:200px;
+  width:98%;
 }
 #category{
-  width: 200px;
+  width: 98%;
   height: 30px;
   margin-top: 5px;
 }
 #directions{
   font-size: 12px;
+  width: 98%;
 }
 #notes{
   font-size: 12px;
+  width: 98%;
 }
 .check-boxes{
   display: flex;
   flex-direction: row;
+  width: 100%;
 }
 .check-box-vegan{
   display: flex;
   flex-direction: row;
-  width: 100px;
+  width: 50%;
 }
 .check-box-gluten{
   display: flex;
   flex-direction: row;
-  width: 100px;
+  width: 50%;
+}
+#image{
+  width: 100%;
+  padding: 5px;
 }
 .ingContainer input{
   width: 49%;
@@ -451,10 +458,14 @@ input {
   flex-direction: row;
 }
 .addIngredientIpt{
-  width: 100px;
+  width: 70px;
+  padding: 2px;
+  font-size: 1.5rem;
 }
 .removeIngredientIpt{
-  width: 100px;
+  width: 70px;
+  padding: 2px;
+  font-size: 1.5rem;
 }
 .form-btns{
   margin: auto;
@@ -468,7 +479,7 @@ input {
 .recipe {
   font-size: 1rem;
   width: 40vw;
-  height: 5vh;
+  height: 6vh;
   min-height: 40px;
   border: 1px solid #e7e7e7;
   /* border-bottom: none; */

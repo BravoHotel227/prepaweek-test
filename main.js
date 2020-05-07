@@ -158,6 +158,7 @@ async function createRecipe(e) {
   const formData = new FormData();
   formData.append('title', document.getElementById('title').value);
   formData.append('prepTime', document.getElementById('prepTime').value);
+  formData.append('serves', document.getElementById('serves').value);
   formData.append('category', document.getElementById('category').value);
   formData.append('directions', document.getElementById('directions').value);
   formData.append('photo', document.getElementById('image').files[0]);
@@ -187,17 +188,35 @@ async function createRecipe(e) {
     formData.append('ingredientNames', ingredientNames[i]);
     formData.append('ingredientQtys', ingredientQtys[i]);
   }
-  await fetch('https://www.mealprepapi.com/api/v1/recipes', {
-    method: 'post',
-    headers: {
-      Authorization: 'Bearer ' + localStorage.token,
-    },
-    body: formData,
-  })
-    .then((response) => response.json())
-    .then((results) => {
-      console.log(results);
-    });
+  if(formHeading.innerHTML === 'Edit Recipe'){
+    const id = document.getElementById('recipeId').innerHTML;
+    await fetch(`https://www.mealprepapi.com/api/v1/recipes/${id}`, {
+      method: 'put',
+      headers: {
+        Authorization: 'Bearer ' + localStorage.token,
+      },
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((results) => {
+        console.log(results);
+        location.reload();
+      });
+  }else{
+    await fetch('https://www.mealprepapi.com/api/v1/recipes', {
+      method: 'post',
+      headers: {
+        Authorization: 'Bearer ' + localStorage.token,
+      },
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((results) => {
+        location.reload();
+        console.log(results);
+      });
+  }
+
 }
 
 async function uploadPhoto(e) {
@@ -229,11 +248,14 @@ async function editRecipe() {
   // Get form elements
   const title = document.getElementById('title'),
     prepTime = document.getElementById('prepTime'),
+    serves = document.getElementById('serves'),
     category = document.getElementById('category'),
     directions = document.getElementById('directions'),
     notes = document.getElementById('notes'),
     vegan = document.getElementById('vegan'),
-    gluten = document.getElementById('glutenfree');
+    gluten = document.getElementById('glutenfree'),
+    ingredientName = document.getElementById("ingredientName_0"),
+    ingredientQty = document.getElementById("ingredientQty_0");
   const id = document.getElementById('recipeId').innerHTML;
   await fetch(`https://www.mealprepapi.com/api/v1/recipes/${id}`, {
     method: 'get',
@@ -243,34 +265,26 @@ async function editRecipe() {
   })
     .then((response) => response.json())
     .then((results) => {
-      console.log(results.data);
       title.value = results.data.title;
       prepTime.value = results.data.prepTime;
+      serves.value = results.data.serves;
       category.value = results.data.category;
       directions.value = results.data.directions;
       notes.value = results.data.notes;
       vegan.checked = results.data.vegan;
       gluten.checked = results.data.glutenFree;
+      ingredientName.value = results.data.ingredientNames[0];
+      ingredientQty.value = results.data.ingredientQtys[0];
+      for( i = 1; i < results.data.ingredientNames.length; i++){
+      let divCont = document.createElement('DIV');
+      divCont.setAttribute('id', `ingContainer_${i}`);
+      divCont.setAttribute('class', 'ingContainer');
+      divCont.innerHTML += `<input type="text" value="${results.data.ingredientNames[i]}" class="ingredientName" id="ingredientName_${i}" placeholder="Ingredient Name">`;
+      divCont.innerHTML += `<input type="text" value="${results.data.ingredientQtys[i]}" class="ingredientQty" id="ingredientQty_${i}" placeholder="Ingreditent Quantity">`;
+      document.getElementById('ingredientCont').appendChild(divCont);
+      }
+
     });
-
-  // Make sure to add clear form for add recipe!!!!!!!!!!!!!!!
-
-  // const id = document.getElementById('recipeId').innerHTML;
-  // await fetch(`https://www.mealprepapi.com/api/v1/recipes/${id}`, {
-  //   method: 'put',
-  //   headers: {
-  //     Authorization: 'Bearer ' + localStorage.token,
-  //     'Content-Type': 'application/json',
-  //   },
-  //   body: JSON.stringify({
-  //     glutenFree: false,
-  //   }),
-  // })
-  //   .then((response) => response.json())
-  //   .then((results) => {
-  //     console.log(results);
-  //     location.reload();
-  //   });
 }
 
 async function deleteRecipe() {
@@ -324,8 +338,7 @@ function closeMeal() {
 
 function clear(e){
   e.preventDefault();
-  // document.getElementById('createRecipe').reset();
-  console.log("Test");
+  var inputs = document.getElementById('recipe-form').elements;
 }
 
 
@@ -350,7 +363,6 @@ mealsEl.addEventListener('click', (e) => {
 });
 
 function addFields() {
-  const ingredientCont = document.getElementById('ingredientCont');
   let inputCount = document.querySelectorAll('#ingredientCont .ingredientName')
     .length;
   let divCont = document.createElement('DIV');
@@ -368,6 +380,6 @@ function removeFields() {
   if (inputCount === 1) {
     console.log('Cant remove last object');
   } else {
-    container.removeChild(container.childNodes[inputCount]);
+    container.removeChild(container.childNodes[inputCount+1]);
   }
 }
