@@ -12,15 +12,17 @@ const logout = document.getElementById('logout'),
   getRecipe = document.getElementById('get-recipe'),
   loading = document.getElementById('loading'),
   emptyRecipe = document.getElementById('empty-recipe'),
-  formHeading = document.getElementById('form-heading');
+  formHeading = document.getElementById('form-heading'),
+  clear = document.getElementById('clear');
 
-let pageNum = 1;
+let number = 1;
 
 // Fetch all recipes owned by logged in user
-async function queryApi(pageNum) {
+async function queryApi(number) {
   loading.classList.add('loading-active');
+  localStorage.pagenum = Number(number)
   await fetch(
-    `https://www.mealprepapi.com/api/v1/recipes?user=${localStorage.userId}&&page=${pageNum}&&limit=15`
+    `https://www.mealprepapi.com/api/v1/recipes?user=${localStorage.userId}&&page=${localStorage.pagenum}&&limit=15`
   )
     .then((response) => response.json())
     .then((results) => {
@@ -51,18 +53,16 @@ async function queryApi(pageNum) {
       }
       if (results.data.length >= 15) {
         const pageButtons = document.getElementById('page-buttons');
+        //onclick="queryApi(${localStorage.pageNum = Number(localStorage.pageNum) + 1})"
         pageButtons.innerHTML += `
-         <button id="page-next" onclick="queryApi(${
-           pageNum + 1
-         })">Next Page</button>
+         <button id="page-next" onclick="queryApi(${number + 1})">Next Page</button>
          `;
       }
       if (results.pagination.prev) {
         const pageButtons = document.getElementById('page-buttons');
+        onclick="queryApi(${localStorage.pageNum = Number(localStorage.pageNum) - 1})"
         pageButtons.innerHTML += `
-        <button id="page-prev" onclick="queryApi(${
-          pageNum - 1
-        })">Previous Page</button>
+        <button id="page-prev" onclick="queryApi(${number - 1})">Previous Page</button>
         `;
       }
     });
@@ -83,9 +83,15 @@ function getRecipeById(recipeID) {
 function addRecipeToDOM(recipe) {
   const ingredients = [];
   for (let i = 0; i < recipe.ingredientNames.length; i++) {
-    ingredients.push(`
+    if(recipe.ingredientQtys[i] === undefined){
+      ingredients.push(`
+      ${recipe.ingredientNames[i]}
+    `);
+    }else {
+      ingredients.push(`
       ${recipe.ingredientNames[i]} - ${recipe.ingredientQtys[i]}
     `);
+    }
   }
   single_mealEl.innerHTML = `
   <div class="meal-header">
@@ -113,14 +119,22 @@ function addRecipeToDOM(recipe) {
        }
       </div>
       <div class="main">
+      <h2 class="ingregients">Ingregients</h2>
+      <ul>
+          ${ingredients.map((ing) => `<li>${ing}</li>`).join('')}
+      </ul>
+       <h2 class="directions">Directions</h2>
           <p>${recipe.directions}</p>
-          <h2 class="ingregients">Ingregients</h2>
-          <ul>
-              ${ingredients.map((ing) => `<li>${ing}</li>`).join('')}
-          <ul>
+          <h2 class="notes" id="note-heading">${recipe.notes ? 'Notes' : ''}</h2>
+          <p>${recipe.notes}</p> 
       </div>
   </div>
 `;
+       if(recipe.notes){
+         document.getElementById('note-heading').style.borderBottom = '1px solid #727070';
+       } else {
+        document.getElementById('note-heading').style.borderBottom = '';
+       }
   single_mealEl.classList.add('active');
 }
 
@@ -189,6 +203,7 @@ async function createRecipe(e) {
     formData.append('ingredientQtys', ingredientQtys[i]);
   }
   if(formHeading.innerHTML === 'Edit Recipe'){
+    console.log(serves.value);
     const id = document.getElementById('recipeId').innerHTML;
     await fetch(`https://www.mealprepapi.com/api/v1/recipes/${id}`, {
       method: 'put',
@@ -314,7 +329,8 @@ async function getUser() {
     .then((results) => {
       if (results.success === true) {
         localStorage.userId = results.data._id;
-        queryApi(pageNum);
+        // queryApi(localStorage.pageNum ? localStorage.pageNum : 1);
+        queryApi(Number(localStorage.pagenum) ? Number(localStorage.pagenum) : 1);
       }
     });
 }
@@ -336,9 +352,36 @@ function closeMeal() {
   singleMeal.classList.remove('active');
 }
 
-function clear(e){
+function clearForm(e){
   e.preventDefault();
-  var inputs = document.getElementById('recipe-form').elements;
+  const title = document.getElementById('title'),
+  prepTime = document.getElementById('prepTime'),
+  serves = document.getElementById('serves'),
+  category = document.getElementById('category'),
+  directions = document.getElementById('directions'),
+  notes = document.getElementById('notes'),
+  vegan = document.getElementById('vegan'),
+  gluten = document.getElementById('glutenfree');
+
+  title.value = '';
+  prepTime.value = '';
+  serves.value = '';
+  category.value = 'null';
+  directions.value = '';
+  notes.value = '';
+  vegan.checked = false;
+  gluten.checed = false;
+
+  let inputCount = document.querySelectorAll('#ingredientCont .ingContainer')
+  .length;
+  for (let i = 0; i < inputCount; i++) {
+    document.getElementById(`ingredientName_${i}`).value = '';
+    document.getElementById(`ingredientQty_${i}`).value = '';
+  }
+  for(let i = 1; i < inputCount; i++){
+    container.removeChild(container.childNodes[i+1]);
+  }
+
 }
 
 
@@ -348,6 +391,7 @@ profile.addEventListener('click', showProfile);
 submitForm.addEventListener('click', createRecipe);
 addRecipeBtn.addEventListener('click', showRecipeForm);
 closeRecipeBtn.addEventListener('click', closeRecipeForm);
+clear.addEventListener('click', clearForm);
 mealsEl.addEventListener('click', (e) => {
   const recipeInfo = e.path.find((item) => {
     if (item.classList) {

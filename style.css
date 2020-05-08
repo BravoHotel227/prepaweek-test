@@ -314,8 +314,22 @@ input {
    text-align: center;
 }
 
+
+.directions{
+  width: 100%;
+  border-bottom: 1px solid #727070;
+  text-align: center; 
+}
+
+.notes{
+  width: 100%;
+  text-align: center;
+}
+
+
 .main ul {
   list-style: none;
+  text-align: center;
 }
 
 .close-meal-btn {
