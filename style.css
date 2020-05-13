@@ -4,7 +4,10 @@
   padding: 0;
   box-sizing: border-box;
   font-family: Arial, Helvetica, sans-serif;
-  --primary-color: #6e3b3b;
+  /* --primary-color: #6e3b3b; */
+  --primary-color: #3a7563;
+  --secondary-color: #59a985;
+  --background-color: #59a985;
 }
 
 button {
@@ -177,7 +180,8 @@ input {
 }
 /* Main Page Styling */
 .main-body {
-  background-color: #f5f5f5;
+  background-color: var(--background-color);
+  /* background-color: #f5f5f5; */
   overflow-x: hidden;
 }
 
@@ -208,6 +212,7 @@ input {
   background-color: var(--primary-color);
   justify-content: flex-end;
   padding: 10px;
+  /* z-index: 1; */
 }
 
 .header button {
@@ -225,23 +230,25 @@ input {
   width: 50vw;
   height: auto;
   margin: auto;
-  margin-top: 0px;
+  margin-top: 0;
   align-items: center;
   /* justify-content: center; */
   text-align: center;
-  border: 3px solid #e7e7e7;
+  border: 3px solid #392f2f;
   border-radius: 50px;
-  box-shadow: 3px 2px 9px #e7e7e7;
+  box-shadow: 3px 2px 9px #392f2f;
 }
 
 .single-meal.active {
   display: block;
   opacity: 1;
+  z-index: 2;
 }
 .main{
   text-align: justify;
   text-justify: inter-word;
   margin-top: 10px;
+  color: #392f2f;
 }
 .recipe-time-serves{
   padding: 10px;
@@ -262,15 +269,14 @@ input {
 .meal-title {
   font-size: 2rem;
   font-weight: bold;
-  color: var(--primary-color);
+  color: white;
 }
 
 .single-meal-category {
   font-size: 1.5rem;
   font-style: italic;
   font-weight: bold;
-  color: #be6a15;
-  color: #f3cf7a;
+  color: white;
 }
 
 .vegan-card{
@@ -312,6 +318,7 @@ input {
    width: 100%;
    border-bottom: 1px solid #727070;
    text-align: center;
+   color: #f3cf7a;
 }
 
 
@@ -319,6 +326,7 @@ input {
   width: 100%;
   border-bottom: 1px solid #727070;
   text-align: center; 
+  color: #f3cf7a;
 }
 
 .notes{
@@ -399,10 +407,6 @@ input {
 .close-btn:hover {
   background-color: #f2f3f4;
   color: var(--primary-color);
-}
-
-.recipe-form {
-  padding: 10px;
 }
 
 #createRecipe{
@@ -496,6 +500,7 @@ input {
   height: 6vh;
   min-height: 40px;
   border: 1px solid #e7e7e7;
+  background-color: #dfdfdf;
   /* border-bottom: none; */
   border-radius: 25px;
   padding: 7px 15px;
@@ -503,7 +508,7 @@ input {
 }
 
 .recipe:nth-child(odd) {
-  background-color: #e7e7e7;
+  background-color: #f9f9f9;
 }
 
 .recipe:nth-child(odd):hover {
@@ -582,8 +587,97 @@ input {
   color: #f5f5f5;
 }
 
+@media only screen and (max-width: 600px){
+  .main-body{
+    overflow: hidden;
+  }
+  .header{
+    bottom: 0;
+    position: fixed;
+    justify-content: space-evenly;
+    margin: auto;
+    padding: 0;
+    z-index: 10;
+    background-color: #e7e7e7;
+  }
+
+  .header button {
+    font-size: 1.2rem;
+    border-radius: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    border: 1px solid #e7e7e7;
+    color:  #3e3e3e;
+  }
+
+  .content{
+    padding: 0;
+    display: block;
+    height: 90vh;
+  }
+  .meals{
+    position: relative;
+    top: 0;
+    margin: 0;
+    padding: 0;
+    overflow-y: scroll;
+    height: 100%;
+  }
+  .single-meal{
+    display: block;
+    width: 100%;
+    background-color: #f5f5f5;
+    height: 90vh;
+    border-radius: 0;
+    position: fixed;
+    top: 8vh;
+    z-index: 2;
+    pointer-events: none;
+    overflow-y: scroll;
+    box-shadow: 0;
+  }
+  .single-meal.active{
+    pointer-events: all;
+
+  }
+  .meal-header{
+    border: 0;
+    padding: 0;
+    height: 8vh;
+    background-color: var(--primary-color);
+    position: fixed;
+    top: 0;
+  }
+  .meal-btn button{
+    background-color: var(--primary-color);
+  }
+  #edit-recipe{
+    background-color: var(--primary-color);
+    color: white;
+  }
+  #delete-recipe{
+    background-color: var(--primary-color);
+    color: white;
+  }
+  .close-meal-btn{
+    color: white;
+  }
+  .recipe{
+    padding-left: 0;
+    width: 100%;
+    height: 10vh;
+  }
+  .page-buttons{
+    padding: 0;
+    padding-bottom: 5px;
+  }
+}
+
 /* Media Queries */
-@media (max-height: 750px) {
+@media only screen and (max-height: 750px) {
   #auth-cont {
     margin: auto;
     margin-top: 15vh;

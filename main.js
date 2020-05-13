@@ -1,6 +1,7 @@
 // DOM Elements
 const logout = document.getElementById('logout'),
   profile = document.getElementById('profile'),
+  planner = document.getElementById('planner'),
   resultHeading = document.getElementById('result-heading'),
   mealsEl = document.getElementById('meals'),
   single_mealEl = document.getElementById('container'),
@@ -152,8 +153,7 @@ async function logoutUser() {
         resultHeading.innerHTML = '';
         meals.innerHTML = '';
         single_mealEl.innerHTML = '';
-        localStorage.removeItem('userId');
-        localStorage.removeItem('token');
+        clearStorage();
         location.href = './login/login.html';
       } else {
         console.log(results);
@@ -384,10 +384,21 @@ function clearForm(e){
 
 }
 
+function clearStorage(){
+  localStorage.removeItem('pagenum');
+  localStorage.removeItem('userId');
+  localStorage.removeItem('token');
+}
+
+function showPlanner(){
+  location.href = './planner/planner.html';
+}
+
 
 // Event listeners
 logout.addEventListener('click', logoutUser);
 profile.addEventListener('click', showProfile);
+planner.addEventListener('click', showPlanner)
 submitForm.addEventListener('click', createRecipe);
 addRecipeBtn.addEventListener('click', showRecipeForm);
 closeRecipeBtn.addEventListener('click', closeRecipeForm);
