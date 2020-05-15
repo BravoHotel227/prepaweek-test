@@ -6,13 +6,16 @@
     <link rel="stylesheet" href="../style.css">
     <title>Document</title>
 </head>
-<body>
+<body onload="getPlanner()">
     <div class="header">
         <!-- <button id="btn-addRecipe">Add Recipe</button> -->
         <button id="home">Home</button>
         <button id="profile">Profile</button>
         <button id="logout">Logout</button>
       </div>
-      <script src="planner.js"></script>
+    <div class="content" id="content">
+        <div class="table" id="table"></div>
+    </div>
+    <script src="planner.js"></script>
 </body>
 </html>
