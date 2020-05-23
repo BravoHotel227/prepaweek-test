@@ -90,36 +90,36 @@ async function getPlanner(){
             <td>` + await getRecipeById(foo.data[0].sunday[1]) + `</td>
           </tr>
           <tr>
-          <td>Dinner</td>
-          <td>` + await getRecipeById(foo.data[0].monday[2]) + `</td>
-          <td>` + await getRecipeById(foo.data[0].tuesday[2]) + `</td>
-          <td>` + await getRecipeById(foo.data[0].wednesday[2]) + `</td>
-          <td>` + await getRecipeById(foo.data[0].thursday[2]) + `</td>
-          <td>` + await getRecipeById(foo.data[0].friday[2]) + `</td>
-          <td>` + await getRecipeById(foo.data[0].saturday[2]) + `</td>
-          <td>` + await getRecipeById(foo.data[0].sunday[2]) + `</td>
-        </tr>
-        <tr>
-        <td>Snack</td>
-        <td>` + await getRecipeById(foo.data[0].monday[3] ? foo.data[0].monday[3] : '') + `</td>
-        <td>` + await getRecipeById(foo.data[0].tuesday[3] ? foo.data[0].tuesday[3] : '') + `</td>
-        <td>` + await getRecipeById(foo.data[0].wednesday[3] ? foo.data[0].wednesday[3] : '') + `</td>
-        <td>` + await getRecipeById(foo.data[0].thursday[3] ? foo.data[0].thursday[3] : '') + `</td>
-        <td>` + await getRecipeById(foo.data[0].friday[3] ? foo.data[0].friday[3] : '') + `</td>
-        <td>` + await getRecipeById(foo.data[0].saturday[3] ? foo.data[0].saturday[3] : '') + `</td>
-        <td>` + await getRecipeById(foo.data[0].sunday[3] ? foo.data[0].sunday[3] : '') + `</td>
-      </tr>
-      <tr>
-      <td>Dessert</td>
-      <td>` + await getRecipeById(foo.data[0].monday[4] ? foo.data[0].monday[4] : '') + `</td>
-      <td>` + await getRecipeById(foo.data[0].tuesday[4] ? foo.data[0].tuesday[4] : '') + `</td>
-      <td>` + await getRecipeById(foo.data[0].wednesday[4] ? foo.data[0].wednesday[4] : '') + `</td>
-      <td>` + await getRecipeById(foo.data[0].thursday[4] ? foo.data[0].thursday[4] : '') + `</td>
-      <td>` + await getRecipeById(foo.data[0].friday[4] ? foo.data[0].friday[4] : '') + `</td>
-      <td>` + await getRecipeById(foo.data[0].saturday[4] ? foo.data[0].saturday[4] : '') + `</td>
-      <td>` + await getRecipeById(foo.data[0].sunday[4] ? foo.data[0].sunday[4] : '') + `</td>
-    </tr>
-        `
+          </table`
+    //       <td>Dinner</td>
+    //       <td>` + await getRecipeById(foo.data[0].monday[2]) + `</td>
+    //       <td>` + await getRecipeById(foo.data[0].tuesday[2]) + `</td>
+    //       <td>` + await getRecipeById(foo.data[0].wednesday[2]) + `</td>
+    //       <td>` + await getRecipeById(foo.data[0].thursday[2]) + `</td>
+    //       <td>` + await getRecipeById(foo.data[0].friday[2]) + `</td>
+    //       <td>` + await getRecipeById(foo.data[0].saturday[2]) + `</td>
+    //       <td>` + await getRecipeById(foo.data[0].sunday[2]) + `</td>
+    //     </tr>
+    //     <tr>
+    //     <td>Snack</td>
+    //     <td>` + await getRecipeById(foo.data[0].monday[3] ? foo.data[0].monday[3] : '') + `</td>
+    //     <td>` + await getRecipeById(foo.data[0].tuesday[3] ? foo.data[0].tuesday[3] : '') + `</td>
+    //     <td>` + await getRecipeById(foo.data[0].wednesday[3] ? foo.data[0].wednesday[3] : '') + `</td>
+    //     <td>` + await getRecipeById(foo.data[0].thursday[3] ? foo.data[0].thursday[3] : '') + `</td>
+    //     <td>` + await getRecipeById(foo.data[0].friday[3] ? foo.data[0].friday[3] : '') + `</td>
+    //     <td>` + await getRecipeById(foo.data[0].saturday[3] ? foo.data[0].saturday[3] : '') + `</td>
+    //     <td>` + await getRecipeById(foo.data[0].sunday[3] ? foo.data[0].sunday[3] : '') + `</td>
+    //   </tr>
+    //   <tr>
+    //   <td>Dessert</td>
+    //   <td>` + await getRecipeById(foo.data[0].monday[4] ? foo.data[0].monday[4] : '') + `</td>
+    //   <td>` + await getRecipeById(foo.data[0].tuesday[4] ? foo.data[0].tuesday[4] : '') + `</td>
+    //   <td>` + await getRecipeById(foo.data[0].wednesday[4] ? foo.data[0].wednesday[4] : '') + `</td>
+    //   <td>` + await getRecipeById(foo.data[0].thursday[4] ? foo.data[0].thursday[4] : '') + `</td>
+    //   <td>` + await getRecipeById(foo.data[0].friday[4] ? foo.data[0].friday[4] : '') + `</td>
+    //   <td>` + await getRecipeById(foo.data[0].saturday[4] ? foo.data[0].saturday[4] : '') + `</td>
+    //   <td>` + await getRecipeById(foo.data[0].sunday[4] ? foo.data[0].sunday[4] : '') + `</td>
+    // </tr>
 }
 
 // Fetch recipe by id
