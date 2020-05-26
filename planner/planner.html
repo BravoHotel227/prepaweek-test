@@ -1,21 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../style.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../style.css" />
     <title>Document</title>
-</head>
-<body onload="getPlanner()">
+  </head>
+  <body class="planner-body" onload="getPlanner()">
     <div class="header">
-        <!-- <button id="btn-addRecipe">Add Recipe</button> -->
-        <button id="home">Home</button>
-        <button id="profile">Profile</button>
-        <button id="logout">Logout</button>
-      </div>
-    <div class="content" id="content">
-        <div class="table" id="table"></div>
+      <!-- <button id="btn-addRecipe">Add Recipe</button> -->
+      <button id="home">Home</button>
+      <button id="profile">Profile</button>
+      <button id="logout">Logout</button>
+    </div>
+    <div class="planner-content" id="planner-content">
+      <div class="table" id="table"></div>
+      <div class="planner-meal" id="planner-meal"></div>
     </div>
     <script src="planner.js"></script>
-</body>
+  </body>
 </html>
