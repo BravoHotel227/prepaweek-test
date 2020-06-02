@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="../style.css" />
     <title>Document</title>
   </head>
-  <body class="planner-body" onload="getPlanner()">
+  <body class="planner-body" onload="onload()">
     <div class="header">
       <!-- <button id="btn-addRecipe">Add Recipe</button> -->
       <button id="home">Home</button>
@@ -14,8 +14,22 @@
       <button id="logout">Logout</button>
     </div>
     <div class="planner-content" id="planner-content">
+      <div class="table-info" id="table-info">
+        <div class="date">
+          <h2>Start date: </h2>
+          <div id="planner-date"></div>
+          <input type="text" class="search-input">
+        </div>
+        <div class="planner-btn">
+          <button id="add-planner" class="add-planner" onclick="addPlanner()">Add</button>
+          <button id="save-edit" class="no-active" onclick="savePlanner()">Save</button>
+          <button id="edit-recipe" onclick="editPlanner()">Edit</button>
+          <button id="delete-recipe" onclick="deletePlanner()">Delete</button>
+        </div>
+      </div>
       <div class="table" id="table"></div>
       <div class="planner-meal" id="planner-meal"></div>
+      <div id="match-list"></div>
     </div>
     <script src="planner.js"></script>
   </body>
