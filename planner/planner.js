@@ -8,12 +8,18 @@ const home = document.getElementById('home'),
   single_meal = document.getElementById('planner-meal'),
   matchList = document.getElementById('match-list'),
   editBtn = document.getElementById('edit-recipe'),
-  saveBtn = document.getElementById('save-edit');
+  saveBtn = document.getElementById('save-edit'),
+  addBtn = document.getElementById('add-planner'),
+  selectPlanner = document.getElementById('select-planner');
 
 var cellColNum;
 var cellRowNum;
+var type;
+var url;
+var mth;
 
 var Recipes = [];
+var Planner = [];
 
 function showHome() {
   location.href = '../mainPage.html';
@@ -52,7 +58,15 @@ function clearStorage() {
 }
 
 const onload = async () => {
+  foo = await getRecipes();
+  Recipes = foo.data;
   planner = await getPlanner();
+  for (var i = 0; i < Planner.length; i++) {
+    var opt = document.createElement('option');
+    opt.appendChild(document.createTextNode(Planner[i].name));
+    opt.value = Planner[i]._id;
+    selectPlanner.appendChild(opt);
+  }
   showPlanner(planner, false);
 };
 
@@ -69,18 +83,39 @@ async function getPlanner() {
   )
     .then((response) => response.json())
     .then((results) => {
+      Planner = results.data;
       return results.data[0];
+    });
+  return planner;
+}
+
+async function getPlannerById(id) {
+  const planner = await fetch(
+    `https://www.mealprepapi.com/api/v1/planner/${id}`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + localStorage.token,
+      },
+    }
+  )
+    .then((response) => response.json())
+    .then((results) => {
+      console.log(results);
+      return results.data;
     });
   return planner;
 }
 
 function showPlanner(planner, edit) {
   const plannerDate = document.getElementById('planner-date');
-  if (planner.date) {
-    var date = new Date(planner.startDate);
-  }
-  plannerDate.innerHTML =
-    date.getDate() + '-' + date.getMonth() + '-' + date.getFullYear();
+  // if (planner.date) {
+  //   var date = new Date(planner.startDate);
+  //   console.log(date);
+  //   plannerDate.innerHTML =
+  //     date.getDate() + '-' + date.getMonth() + '-' + date.getFullYear();
+  // }
   table.innerHTML = '';
   var tbl = document.createElement('table');
   var tblBody = document.createElement('tbody');
@@ -340,14 +375,14 @@ function closeMeal() {
 }
 
 async function editPlanner() {
+  type = 'edit';
   var edit = true;
   planner = await getPlanner();
   console.log(planner);
   showPlanner(planner, edit);
   editBtn.classList.add('edit-active');
   saveBtn.classList.remove('no-active');
-  foo = await getRecipes();
-  Recipes = foo.data;
+
   const search = document.querySelectorAll('.search-input');
   search.forEach(function (search) {
     search.addEventListener('input', () => searchRecipes(search.value));
@@ -376,12 +411,10 @@ const searchRecipes = async (searchText) => {
     const regex = new RegExp(`^${searchText}`, 'gi');
     return recipe.title.match(regex) || recipe.category.match(regex);
   });
-  // if (searchText.length == 0) {
-  //   matches = [];
-  //   matchList.innerHTML = '';
-  // }
-
-  console.log(matches);
+  if (searchText.length == 0) {
+    matches = [];
+    matchList.innerHTML = '';
+  }
   outputHtml(matches);
 };
 
@@ -453,35 +486,63 @@ const savePlanner = async () => {
     for (var j = 1, col; (col = row.cells[j]); j++) {
       switch (i) {
         case 1: {
-          breakfastID[index] = col.getAttribute('data-recipeID');
+          if (!col.getAttribute('data-recipeID')) {
+            breakfastID[index] = '';
+          } else {
+            breakfastID[index] = col.getAttribute('data-recipeID');
+          }
           index++;
           break;
         }
         case 2: {
-          lunchID[index] = col.getAttribute('data-recipeID');
+          if (!col.getAttribute('data-recipeID')) {
+            lunchID[index] = '';
+          } else {
+            lunchID[index] = col.getAttribute('data-recipeID');
+          }
           index++;
           break;
         }
         case 3: {
-          dinnerID[index] = col.getAttribute('data-recipeID');
+          if (!col.getAttribute('data-recipeID')) {
+            dinnerID[index] = '';
+          } else {
+            dinnerID[index] = col.getAttribute('data-recipeID');
+          }
           index++;
           break;
         }
         case 4: {
-          dessertID[index] = col.getAttribute('data-recipeID');
+          if (!col.getAttribute('data-recipeID')) {
+            dessertID[index] = '';
+          } else {
+            dessertID[index] = col.getAttribute('data-recipeID');
+          }
           index++;
           break;
         }
         case 5: {
-          snackID[index] = col.getAttribute('data-recipeID');
+          if (!col.getAttribute('data-recipeID')) {
+            snackID[index] = '';
+          } else {
+            snackID[index] = col.getAttribute('data-recipeID');
+          }
           index++;
           break;
         }
       }
     }
   }
-  await fetch(`https://www.mealprepapi.com/api/v1/planner/${tableId}`, {
-    method: 'put',
+  if (type === 'edit') {
+    url = `https://www.mealprepapi.com/api/v1/planner/${tableId}`;
+    mth = 'put';
+  } else if (type === 'add') {
+    url = `https://www.mealprepapi.com/api/v1/planner`;
+    mth = 'post';
+  }
+  console.log(url, mth);
+  await fetch(url, {
+    method: mth,
     headers: {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + localStorage.token,
@@ -498,12 +559,19 @@ const savePlanner = async () => {
   })
     .then((response) => response.json())
     .then((results) => {
-      showPlanner(results.data[0], false);
       console.log(results);
+      showPlanner(results.data, false);
     });
+  type = '';
+  editBtn.classList.remove('edit-active');
+  addBtn.classList.remove('edit-active');
+  saveBtn.classList.add('no-active');
 };
 
 const addPlanner = async () => {
+  type = 'add';
+  addBtn.classList.add('edit-active');
+  saveBtn.classList.remove('no-active');
   table.innerHTML = '';
   var tbl = document.createElement('table');
   var tblBody = document.createElement('tbody');
@@ -527,53 +595,79 @@ const addPlanner = async () => {
   }
   tbl.appendChild(headRow);
 
-  for(var i = 0; i < 5; i++){
+  for (var i = 0; i < 5; i++) {
     var row = document.createElement('tr');
 
-    for(var j = -1; j < 7; j++){
+    for (var j = -1; j < 7; j++) {
       var cell = document.createElement('td');
       var cellText;
-      switch(i){
+      switch (i) {
         case 0: {
-          if(j === -1){
+          if (j === -1) {
             cellText = document.createTextNode(category[i]);
-          }else{
+          } else {
             cellText = document.createElement('input');
           }
           break;
         }
-        case 1:{
-          if(j === -1){
+        case 1: {
+          if (j === -1) {
             cellText = document.createTextNode(category[i]);
-          }else{
+          } else {
             cellText = document.createElement('input');
           }
           break;
         }
         case 2: {
-          if(j === -1){
-            
+          if (j === -1) {
+            cellText = document.createTextNode(category[i]);
+          } else {
+            cellText = document.createElement('input');
           }
+          break;
         }
         case 3: {
-
+          if (j === -1) {
+            cellText = document.createTextNode(category[i]);
+          } else {
+            cellText = document.createElement('input');
+          }
+          break;
         }
         case 4: {
-
+          if (j === -1) {
+            cellText = document.createTextNode(category[i]);
+          } else {
+            cellText = document.createElement('input');
+          }
+          break;
         }
         case 5: {
-
+          if (j === -1) {
+            cellText = document.createTextNode(category[i]);
+          } else {
+            cellText = document.createElement('input');
+          }
+          break;
         }
       }
-      if(j !== -1){
-        cellText.setAtrribute('class', 'search-input');
+      if (j !== -1) {
+        cellText.setAttribute('class', 'search-input');
       }
+      cell.appendChild(cellText);
+      row.append(cell);
     }
+    tblBody.appendChild(row);
   }
 
   tbl.appendChild(tblBody);
   table.appendChild(tbl);
-  tbl.setAtrribute('border', '2');
+  tbl.setAttribute('border', '2');
+  const search = document.querySelectorAll('.search-input');
+  search.forEach(function (search) {
+    search.addEventListener('input', () => searchRecipes(search.value));
+  });
+  getCellIndex();
 };
 
 // Event listeners
@@ -606,4 +700,9 @@ matchList.addEventListener('click', (e) => {
     const recipeName = recipeInfo.textContent.trim();
     addToPlanner(recipeId, recipeName);
   }
+});
+selectPlanner.addEventListener('change', async function () {
+  var planner = await getPlannerById(this.value);
+  console.log(planner);
+  showPlanner(planner, false);
 });
