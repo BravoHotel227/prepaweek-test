@@ -114,7 +114,6 @@ input[type='password'] {
   height: 2rem;
   padding: 10px;
   margin: 8px 0px;
-  display: inline-block;
   box-sizing: border-box;
   border-radius: 25px;
 }
@@ -565,7 +564,6 @@ input {
 #edit-recipe {
   width: 5vw;
   min-width: 50px;
-  margin-right: 5px;
   background-color: #f5f5f5;
   color: var(--primary-color);
   font-weight: bold;
@@ -588,6 +586,109 @@ input {
 }
 
 /* Planner Styling */
+@keyframes openModal {
+  0% {
+    opacity: 0;
+  }
+  /* 50% {
+    opacity: 1;
+  } */
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes closeModal {
+  0% {
+    opacity: 1;
+  }
+  /* 50% {
+    opacity: 1;
+  } */
+  100% {
+    opacity: 0;
+  }
+}
+
+.dropdown {
+  position: fixed;
+  z-index: 1;
+  left: 0%;
+  top: 0%;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  pointer-events: none;
+  opacity: 0;
+}
+.dropdown-content {
+  background-color: #f2f3f4;
+  border: 2px solid var(--secondary-color);
+  color: #392f2f;
+  margin: 1% auto;
+  width: 25%;
+  height: 5%;
+  padding: 10px;
+  font-size: 1.2rem;
+  border-radius: 50px;
+  overflow: hidden;
+  box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+.delete-modal {
+  position: fixed;
+  z-index: 2;
+  left: 0%;
+  top: 0%;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  opacity: 0;
+  display: none;
+}
+.delete-modal-content {
+  pointer-events: auto;
+  background-color: #f2f3f4;
+  border: 2px solid var(--secondary-color);
+  color: #392f2f;
+  margin: 20% auto;
+  width: 25%;
+  height: 25%;
+  padding: 2% 0%;
+  font-size: 2rem;
+  border-radius: 50px;
+  overflow: hidden;
+  box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+.delete-modal-content p {
+  padding-bottom: 10px;
+}
+.delete {
+  font-size: 1.2rem;
+  padding: 5px;
+  width: 120px;
+  height: 40px;
+}
+.dropdown-active {
+  display: block;
+  animation-name: openModal;
+  animation-duration: 1200ms;
+  animation-fill-mode: forwards;
+}
+.dropdown-not-active {
+  animation-name: closeModal;
+  animation-duration: 1200ms;
+  animation-fill-mode: backwards;
+}
+
+.planner-name-hd h1 {
+  color: #f5f5f5;
+  font-style: italic;
+  padding: 5px;
+  text-align: left;
+  width: 200px;
+}
+
 .table-info {
   display: flex;
   align-items: center;
@@ -599,9 +700,26 @@ input {
   margin-right: auto;
 }
 
-.date {
+.planner-info {
   display: flex;
   align-items: center;
+}
+
+.planner-info h3 {
+  min-width: 140px;
+  width: auto;
+  font-style: italic;
+  color: #f2f3f4;
+  font-weight: normal;
+  padding-right: 5px;
+}
+.planner-btn {
+  display: flex;
+  width: auto;
+  justify-content: space-evenly;
+}
+.planner-btn button {
+  margin: 5px;
 }
 
 .planner-body {
@@ -612,6 +730,27 @@ input {
   margin: 0;
   height: auto;
 }
+#search-input {
+  background-color: #f5f5f5;
+  margin-left: 5px;
+}
+.select {
+  width: 250px;
+  height: 30px;
+  background-color: #f5f5f5;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+.planner-name {
+  display: none;
+}
+#planner-name {
+  margin: 5px;
+  width: 20%;
+  min-width: 200px;
+  background-color: #f5f5f5;
+}
+
 .table {
   display: flex;
   justify-content: center;
@@ -628,6 +767,7 @@ input {
 }
 table {
   border-collapse: collapse;
+  /* margin-left: 0px; */
 }
 
 /* table,
@@ -685,10 +825,6 @@ th {
   display: none;
 }
 
-.planner-active {
-  display: block;
-}
-
 .planner-meal-btn {
   width: 100%;
   padding-right: 5px;
@@ -702,15 +838,33 @@ th {
 .add-planner {
   width: 5vw;
   min-width: 50px;
-  margin-right: 5px;
   background-color: #f5f5f5;
   color: var(--primary-color);
   font-weight: bold;
 }
+.add-planner:hover {
+  background-color: var(--primary-color);
+  color: #f5f5f5;
+}
+#add-planner {
+  margin-right: 5px;
+}
+.cancel {
+  width: 5vw;
+  min-width: 50px;
+  margin: 0px 5px;
+  background-color: #f5f5f5;
+  color: var(--primary-color);
+  font-weight: bold;
+  display: block;
+}
+.cancel:hover {
+  background-color: var(--primary-color);
+  color: #f5f5f5;
+}
 #save-edit {
   width: 5vw;
   min-width: 50px;
-  margin-right: 5px;
   background-color: #f5f5f5;
   color: var(--primary-color);
   font-weight: bold;
@@ -793,6 +947,9 @@ th {
 }
 .match-results:hover {
   background-color: var(--primary-color);
+}
+.planner-active {
+  display: block;
 }
 
 @media only screen and (max-width: 600px) {

@@ -7,6 +7,19 @@
     <title>Document</title>
   </head>
   <body class="planner-body" onload="onload()">
+    <div class="dropdown" id="dropdown-alert">
+      <div class="dropdown-content" id="dropdown-content"></div>
+    </div>
+    <div class="delete-modal" id="delete-modal">
+      <div class="delete-modal-content" id="delete-content">
+        <p>Are you sure you want to delete this planner?</p>
+        <button id="delete-yes" class="delete" onclick="deleteYes()">
+          Yes
+        </button>
+        <button id="delete-no" class="delete" onclick="deleteNo()">No</button>
+      </div>
+    </div>
+    <div class="loading" id="loading"></div>
     <div class="header">
       <!-- <button id="btn-addRecipe">Add Recipe</button> -->
       <button id="home">Home</button>
@@ -15,19 +28,41 @@
     </div>
     <div class="planner-content" id="planner-content">
       <div class="table-info" id="table-info">
-        <div class="date">
-          <h2>Select Planner: </h2>
-          <select id="select-planner" class="select">
-          </select>
-          <input type="text" class="search-input">
+        <div class="planner-name-hd" id="name-heading"></div>
+        <div class="planner-info">
+          <h3>Select Planner:</h3>
+          <select id="select-planner" class="select"> </select>
+          <input
+            type="text"
+            id="search-input"
+            class="search-input no-active"
+            placeholder="Search recipes by title or category"
+          />
         </div>
         <div class="planner-btn">
-          <button id="add-planner" class="add-planner" onclick="addPlanner()">Add</button>
-          <button id="save-edit" class="no-active" onclick="savePlanner()">Save</button>
+          <button id="add-planner" class="add-planner" onclick="addPlanner()">
+            Add
+          </button>
+          <button id="save-edit" class="no-active" onclick="savePlanner()">
+            Save
+          </button>
+          <button
+            id="cancel"
+            class="cancel no-active"
+            onclick="cancelPlanner()"
+          >
+            Cancel
+          </button>
           <button id="edit-recipe" onclick="editPlanner()">Edit</button>
           <button id="delete-recipe" onclick="deletePlanner()">Delete</button>
         </div>
       </div>
+      <input
+        type="text"
+        id="planner-name"
+        class="planner-name"
+        placeholder="Enter name for planner"
+      />
       <div class="table" id="table"></div>
       <div class="planner-meal" id="planner-meal"></div>
       <div id="match-list"></div>

@@ -10,7 +10,14 @@ const home = document.getElementById('home'),
   editBtn = document.getElementById('edit-recipe'),
   saveBtn = document.getElementById('save-edit'),
   addBtn = document.getElementById('add-planner'),
-  selectPlanner = document.getElementById('select-planner');
+  selectPlanner = document.getElementById('select-planner'),
+  plannerName = document.getElementById('planner-name'),
+  cancel = document.getElementById('cancel'),
+  modal = document.getElementById('dropdown-alert'),
+  modalContent = document.getElementById('dropdown-content'),
+  deleteAlert = document.getElementById('delete-modal'),
+  plannerNameHd = document.getElementById('name-heading'),
+  searchInput = document.getElementById('search-input');
 
 var cellColNum;
 var cellRowNum;
@@ -58,6 +65,7 @@ function clearStorage() {
 }
 
 const onload = async () => {
+  loading.classList.add('loading-active');
   foo = await getRecipes();
   Recipes = foo.data;
   planner = await getPlanner();
@@ -68,6 +76,7 @@ const onload = async () => {
     selectPlanner.appendChild(opt);
   }
   showPlanner(planner, false);
+  loading.classList.remove('loading-active');
 };
 
 async function getPlanner() {
@@ -109,7 +118,7 @@ async function getPlannerById(id) {
 }
 
 function showPlanner(planner, edit) {
-  const plannerDate = document.getElementById('planner-date');
+  plannerNameHd.innerHTML = `<h1>${planner.name}</h1>`;
   // if (planner.date) {
   //   var date = new Date(planner.startDate);
   //   console.log(date);
@@ -208,6 +217,7 @@ function showPlanner(planner, edit) {
           cell.classList.add('recipe-info');
         }
       } else {
+        plannerName.value = selectPlanner[selectPlanner.selectedIndex].text;
         switch (i) {
           case 0: {
             if (j === -1) {
@@ -380,9 +390,7 @@ async function editPlanner() {
   planner = await getPlanner();
   console.log(planner);
   showPlanner(planner, edit);
-  editBtn.classList.add('edit-active');
-  saveBtn.classList.remove('no-active');
-
+  editActive();
   const search = document.querySelectorAll('.search-input');
   search.forEach(function (search) {
     search.addEventListener('input', () => searchRecipes(search.value));
@@ -391,6 +399,10 @@ async function editPlanner() {
 }
 
 const deletePlanner = async () => {
+  openDelete();
+};
+
+const deleteYes = async () => {
   var table = document.querySelector('table');
   plannerId = table.getAttribute('data-plannerid');
   await fetch(`https://www.mealprepapi.com/api/v1/planner/${plannerId}`, {
@@ -404,6 +416,10 @@ const deletePlanner = async () => {
       console.log(results);
       location.reload();
     });
+};
+
+const deleteNo = () => {
+  closeDelete();
 };
 
 const searchRecipes = async (searchText) => {
@@ -473,14 +489,17 @@ const getCellIndex = () => {
 const savePlanner = async () => {
   const table = document.querySelector('table');
   const tableId = table.getAttribute('data-plannerId');
-  const searchInput = document.getElementById('search-input');
-  date = new Date();
-  console.log(date);
-  var breakfastID = [];
-  var lunchID = [];
-  var dinnerID = [];
-  var dessertID = [];
-  var snackID = [];
+  var breakfastID = [],
+    breakfastName = [],
+    lunchID = [],
+    lunchName = [],
+    dinnerID = [],
+    dinnerName = [],
+    dessertID = [],
+    dessertName = [],
+    snackID = [],
+    snackName = [];
+
   for (var i = 1, row; (row = table.rows[i]); i++) {
     var index = 0;
     for (var j = 1, col; (col = row.cells[j]); j++) {
@@ -488,8 +507,10 @@ const savePlanner = async () => {
         case 1: {
           if (!col.getAttribute('data-recipeID')) {
             breakfastID[index] = '';
+            breakfastName[index] = '';
           } else {
             breakfastID[index] = col.getAttribute('data-recipeID');
+            breakfastName[index] = col.firstChild.value;
           }
           index++;
           break;
@@ -497,8 +518,10 @@ const savePlanner = async () => {
         case 2: {
           if (!col.getAttribute('data-recipeID')) {
             lunchID[index] = '';
+            lunchName[index] = '';
           } else {
             lunchID[index] = col.getAttribute('data-recipeID');
+            lunchName[index] = col.firstChild.value;
           }
           index++;
           break;
@@ -506,8 +529,10 @@ const savePlanner = async () => {
         case 3: {
           if (!col.getAttribute('data-recipeID')) {
             dinnerID[index] = '';
+            lunchName[index] = '';
           } else {
             dinnerID[index] = col.getAttribute('data-recipeID');
+            dinnerName[index] = col.firstChild.value;
           }
           index++;
           break;
@@ -515,8 +540,10 @@ const savePlanner = async () => {
         case 4: {
           if (!col.getAttribute('data-recipeID')) {
             dessertID[index] = '';
+            dessertName[index] = '';
           } else {
             dessertID[index] = col.getAttribute('data-recipeID');
+            dessertName[index] = col.firstChild.value;
           }
           index++;
           break;
@@ -524,8 +551,10 @@ const savePlanner = async () => {
         case 5: {
           if (!col.getAttribute('data-recipeID')) {
             snackID[index] = '';
+            snackName[index] = '';
           } else {
             snackID[index] = col.getAttribute('data-recipeID');
+            snackName[index] = col.firstChild.value;
           }
           index++;
           break;
@@ -540,7 +569,6 @@ const savePlanner = async () => {
     url = `https://www.mealprepapi.com/api/v1/planner`;
     mth = 'post';
   }
-  console.log(url, mth);
   await fetch(url, {
     method: mth,
     headers: {
@@ -549,29 +577,38 @@ const savePlanner = async () => {
     },
     body: JSON.stringify({
       user: localStorage.userId,
-      startDate: date,
+      name: plannerName.value,
       breakfastID,
+      breakfastName,
       lunchID,
+      lunchName,
       dinnerID,
+      dinnerName,
       dessertID,
+      dessertName,
       snackID,
+      snackName,
     }),
   })
     .then((response) => response.json())
     .then((results) => {
+      if (results.sucess === true) {
+        openModal(true);
+        setTimeout(closeModal, 1501);
+        type = '';
+        plainView();
+        showPlanner(results.data, false);
+      } else {
+        openModal(false);
+        setTimeout(closeModal, 1501);
+      }
       console.log(results);
-      showPlanner(results.data, false);
     });
-  type = '';
-  editBtn.classList.remove('edit-active');
-  addBtn.classList.remove('edit-active');
-  saveBtn.classList.add('no-active');
 };
 
 const addPlanner = async () => {
   type = 'add';
-  addBtn.classList.add('edit-active');
-  saveBtn.classList.remove('no-active');
+  addActive();
   table.innerHTML = '';
   var tbl = document.createElement('table');
   var tblBody = document.createElement('tbody');
@@ -668,6 +705,62 @@ const addPlanner = async () => {
     search.addEventListener('input', () => searchRecipes(search.value));
   });
   getCellIndex();
+};
+
+const editActive = () => {
+  editBtn.classList.add('edit-active');
+  plannerName.classList.add('planner-active');
+  cancel.classList.remove('no-active');
+  addBtn.classList.add('edit-active');
+  saveBtn.classList.remove('no-active');
+  searchInput.classList.remove('no-active');
+};
+
+const addActive = () => {
+  addBtn.classList.add('edit-active');
+  plannerName.classList.add('planner-active');
+  editBtn.classList.add('edit-active');
+  cancel.classList.remove('no-active');
+  saveBtn.classList.remove('no-active');
+  searchInput.classList.remove('no-active');
+};
+
+const plainView = () => {
+  plannerName.classList.remove('planner-active');
+  cancel.classList.add('no-active');
+  editBtn.classList.remove('edit-active');
+  addBtn.classList.remove('edit-active');
+  saveBtn.classList.add('no-active');
+  searchInput.classList.add('no-active');
+};
+
+const cancelPlanner = () => {
+  location.reload();
+};
+
+const openModal = (success) => {
+  if (success === true) {
+    modalContent.innerHTML = `<p>Request was made successfully</p>`;
+  } else {
+    modalContent.innerHTML = `<p>Opps... Something went wrong</p>`;
+  }
+  modal.classList.add('dropdown-active');
+  modal.classList.remove('dropdown-not-active');
+};
+
+const closeModal = () => {
+  modal.classList.add('dropdown-not-active');
+  modal.classList.remove('dropdown-active');
+};
+
+const openDelete = () => {
+  deleteAlert.classList.remove('dropdown-not-active');
+  deleteAlert.classList.add('dropdown-active');
+};
+
+const closeDelete = () => {
+  deleteAlert.classList.remove('dropdown-active');
+  deleteAlert.classList.add('dropdown-not-active');
 };
 
 // Event listeners
