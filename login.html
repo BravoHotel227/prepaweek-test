@@ -11,7 +11,10 @@
     <title>Meal Prep</title>
     <link rel="stylesheet" href="style.css" />
   </head>
-  <body id="login-page">
+  <body id="login-page" onload="onload()">
+    <div class="dropdown" id="dropdown-alert">
+      <div class="dropdown-content" id="dropdown-content"></div>
+    </div>
     <div id="auth-cont">
       <h1>Prep A Week</h1>
       <div class="spinner" id="spinner"></div>
@@ -20,14 +23,19 @@
           type="text"
           class="ipt-username"
           id="ipt-username"
-          value="zombiemage12343@hotmail.com"
+          placeholder="Username"
+          value=""
         />
         <input
           type="password"
           class="ipt-password"
           id="ipt-password"
-          value="123456"
+          placeholder="Password"
+          value=""
         />
+        <div class="remember-dets">
+          <input type="checkbox" id="remember-details" />Remember details?
+        </div>
         <button id="login">Login</button>
       </div>
       <div id="content">

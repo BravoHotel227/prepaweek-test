@@ -46,13 +46,12 @@ async function logoutUser() {
     .then((response) => response.json())
     .then((results) => {
       if (results.success === true) {
-        resultHeading.innerHTML = '';
-        meals.innerHTML = '';
-        single_mealEl.innerHTML = '';
+        // resultHeading.innerHTML = '';
+        // meals.innerHTML = '';
+        // single_mealEl.innerHTML = '';
         clearStorage();
-        location.href = './login/login.html';
+        location.href = './login.html';
       } else {
-        console.log(results);
         alert('Logout failed...');
       }
     });
@@ -742,7 +741,7 @@ const openModal = (success) => {
   if (success === true) {
     modalContent.innerHTML = `<p>Request was made successfully</p>`;
   } else {
-    modalContent.innerHTML = `<p>Opps... Something went wrong</p>`;
+    modalContent.innerHTML = `<p>Oops... Something went wrong</p>`;
   }
   modal.classList.add('dropdown-active');
   modal.classList.remove('dropdown-not-active');

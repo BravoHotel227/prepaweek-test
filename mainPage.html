@@ -18,91 +18,98 @@
       <button id="logout">Logout</button>
     </div>
     <div id="empty-recipe"></div>
-    <div class="loading" id="loading"></div>
+    <div class="loading-container">
+      <div class="loading" id="loading"></div>
+    </div>
     <div id="addRecipe"></div>
     <div class="recipe-form" id="recipe-form">
       <div class="add-recipe-container" id="add-recipe-container">
         <div class="recipe-header">
-          <h1 id=form-heading></h1>
+          <h1 id="form-heading"></h1>
           <button class="close-btn" id="close-btn">&times;</button>
         </div>
         <div class="recipe-form">
           <form id="createRecipe">
             <div class="top-half">
-            <div class="form-left-half">
-            <input type="text" id="title" placeholder="Recipe title" />
-            <input type="text" id="prepTime" placeholder="Prep time" />
-            <input type="text" id="serves" placeholder="Serves" />
-            <select id="category">
-              <option value="null">Category...</option>
-              <option value="Breakfast">Breakfast</option>
-              <option value="Lunch">Lunch</option>
-              <option value="Dinner">Dinner</option>
-              <option value="Snack">Snack</option>
-              <option value="Dessert">Dessert</option>
-            </select>
-            <br />
-            <textarea
-              id="directions"
-              cols="50"
-              rows="7"
-              placeholder="Recipe directions..."
-            ></textarea>
-            <textarea
-              id="notes"
-              cols="50"
-              rows="7"
-              placeholder="Recipe notes..."
-            ></textarea>
-            <br />
-            <div class="check-boxes">
-              <div class="check-box-vegan">
-                <input type="checkbox" id="vegan" />Vegan
+              <div class="form-left-half">
+                <input type="text" id="title" placeholder="Recipe title" />
+                <input type="text" id="prepTime" placeholder="Prep time" />
+                <input type="text" id="serves" placeholder="Serves" />
+                <select id="category">
+                  <option value="null">Category...</option>
+                  <option value="Breakfast">Breakfast</option>
+                  <option value="Lunch">Lunch</option>
+                  <option value="Dinner">Dinner</option>
+                  <option value="Snack">Snack</option>
+                  <option value="Dessert">Dessert</option>
+                </select>
+                <br />
+                <textarea
+                  id="directions"
+                  cols="50"
+                  rows="7"
+                  placeholder="Recipe directions..."
+                ></textarea>
+                <textarea
+                  id="notes"
+                  cols="50"
+                  rows="7"
+                  placeholder="Recipe notes..."
+                ></textarea>
+                <br />
+                <div class="check-boxes">
+                  <div class="check-box-vegan">
+                    <input type="checkbox" id="vegan" />Vegan
+                  </div>
+                  <div class="check-box-gluten">
+                    <input type="checkbox" id="glutenfree" />Gluten-free
+                  </div>
+                </div>
+                <input type="file" id="image" accept="image/*" />
               </div>
-              <div class="check-box-gluten">
-                <input type="checkbox" id="glutenfree" />Gluten-free
+              <div class="form-right-half">
+                <div id="ingredientCont">
+                  <div class="ingContainer" id="ingContainer_0">
+                    <input
+                      type="text"
+                      class="ingredientName"
+                      id="ingredientName_0"
+                      placeholder="Ingredient Name"
+                    />
+                    <input
+                      type="text"
+                      class="ingredientQty"
+                      id="ingredientQty_0"
+                      placeholder="Ingredient Quantity"
+                    />
+                  </div>
+                </div>
+                <div class="ingredient-btn">
+                  <button
+                    type="button"
+                    class="addIngredientIpt"
+                    onclick="addFields()"
+                    id="addIpt"
+                  >
+                    &plus;
+                  </button>
+                  <button
+                    type="button"
+                    class="removeIngredientIpt"
+                    onclick="removeFields()"
+                    id="removeIpt"
+                  >
+                    &minus;
+                  </button>
+                </div>
               </div>
             </div>
-            <input type="file" id="image" accept="image/*" />
-          </div>
-          <div class="form-right-half">
-            <div id="ingredientCont">
-              <div class="ingContainer" id="ingContainer_0">
-                <input
-                  type="text"
-                  class="ingredientName"
-                  id="ingredientName_0"
-                  placeholder="Ingredient Name"
-                />
-                <input
-                  type="text"
-                  class="ingredientQty"
-                  id="ingredientQty_0"
-                  placeholder="Ingredient Quantity"
-                />
+            <div class="bottom-half">
+              <div class="form-btns">
+                <button type="button" id="clear">Reset Form</button>
+                <button type="button" id="submit-form">Submit</button>
               </div>
             </div>
-            <div class="ingredient-btn">
-              <button type="button" class="addIngredientIpt" onclick="addFields()" id="addIpt">
-                &plus;
-              </button>
-              <button
-                type="button"
-                class="removeIngredientIpt"
-                onclick="removeFields()"
-                id="removeIpt"
-              >
-                &minus;
-              </button>
-            </div>
-          </div>
-        </div>
-        <div class="bottom-half">
-            <div class="form-btns">
-              <button type="button" id="clear">Reset Form</button>
-              <button type="button" id="submit-form">Submit</button>
-            </div>
-          </div>
           </form>
         </div>
         <!-- <form id="photoUpload">
