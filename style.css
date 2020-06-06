@@ -793,6 +793,9 @@ td:first-child {
   border-right: 1px solid #403f3f;
   cursor: text;
 }
+td:first-child:hover {
+  background-color: #f5f5f5;
+}
 th:last-child {
   border-right: 1px solid #403f3f;
 }
