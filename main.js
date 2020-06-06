@@ -21,7 +21,7 @@ let number = 1;
 // Fetch all recipes owned by logged in user
 async function queryApi(number) {
   loading.classList.add('loading-active');
-  localStorage.pagenum = Number(number)
+  localStorage.pagenum = Number(number);
   await fetch(
     `https://www.mealprepapi.com/api/v1/recipes?user=${localStorage.userId}&&page=${localStorage.pagenum}&&limit=15`
   )
@@ -56,14 +56,19 @@ async function queryApi(number) {
         const pageButtons = document.getElementById('page-buttons');
         //onclick="queryApi(${localStorage.pageNum = Number(localStorage.pageNum) + 1})"
         pageButtons.innerHTML += `
-         <button id="page-next" onclick="queryApi(${number + 1})">Next Page</button>
+         <button id="page-next" onclick="queryApi(${
+           number + 1
+         })">Next Page</button>
          `;
       }
       if (results.pagination.prev) {
         const pageButtons = document.getElementById('page-buttons');
-        onclick="queryApi(${localStorage.pageNum = Number(localStorage.pageNum) - 1})"
+        onclick =
+          'queryApi(${localStorage.pageNum = Number(localStorage.pageNum) - 1})';
         pageButtons.innerHTML += `
-        <button id="page-prev" onclick="queryApi(${number - 1})">Previous Page</button>
+        <button id="page-prev" onclick="queryApi(${
+          number - 1
+        })">Previous Page</button>
         `;
       }
     });
@@ -84,11 +89,11 @@ function getRecipeById(recipeID) {
 function addRecipeToDOM(recipe) {
   const ingredients = [];
   for (let i = 0; i < recipe.ingredientNames.length; i++) {
-    if(recipe.ingredientQtys[i] === undefined){
+    if (recipe.ingredientQtys[i] === undefined) {
       ingredients.push(`
       ${recipe.ingredientNames[i]}
     `);
-    }else {
+    } else {
       ingredients.push(`
       ${recipe.ingredientNames[i]} - ${recipe.ingredientQtys[i]}
     `);
@@ -126,16 +131,19 @@ function addRecipeToDOM(recipe) {
       </ul>
        <h2 class="directions">Directions</h2>
           <p>${recipe.directions}</p>
-          <h2 class="notes" id="note-heading">${recipe.notes ? 'Notes' : ''}</h2>
+          <h2 class="notes" id="note-heading">${
+            recipe.notes ? 'Notes' : ''
+          }</h2>
           <p>${recipe.notes}</p> 
       </div>
   </div>
 `;
-       if(recipe.notes){
-         document.getElementById('note-heading').style.borderBottom = '1px solid #727070';
-       } else {
-        document.getElementById('note-heading').style.borderBottom = '';
-       }
+  if (recipe.notes) {
+    document.getElementById('note-heading').style.borderBottom =
+      '1px solid #727070';
+  } else {
+    document.getElementById('note-heading').style.borderBottom = '';
+  }
   single_mealEl.classList.add('active');
 }
 
@@ -154,7 +162,7 @@ async function logoutUser() {
         meals.innerHTML = '';
         single_mealEl.innerHTML = '';
         clearStorage();
-        location.href = './login/login.html';
+        location.href = 'login.html';
       } else {
         console.log(results);
         alert('Logout failed...');
@@ -202,7 +210,7 @@ async function createRecipe(e) {
     formData.append('ingredientNames', ingredientNames[i]);
     formData.append('ingredientQtys', ingredientQtys[i]);
   }
-  if(formHeading.innerHTML === 'Edit Recipe'){
+  if (formHeading.innerHTML === 'Edit Recipe') {
     console.log(serves.value);
     const id = document.getElementById('recipeId').innerHTML;
     await fetch(`https://www.mealprepapi.com/api/v1/recipes/${id}`, {
@@ -217,7 +225,7 @@ async function createRecipe(e) {
         console.log(results);
         location.reload();
       });
-  }else{
+  } else {
     await fetch('https://www.mealprepapi.com/api/v1/recipes', {
       method: 'post',
       headers: {
@@ -231,7 +239,6 @@ async function createRecipe(e) {
         console.log(results);
       });
   }
-
 }
 
 async function uploadPhoto(e) {
@@ -269,8 +276,8 @@ async function editRecipe() {
     notes = document.getElementById('notes'),
     vegan = document.getElementById('vegan'),
     gluten = document.getElementById('glutenfree'),
-    ingredientName = document.getElementById("ingredientName_0"),
-    ingredientQty = document.getElementById("ingredientQty_0");
+    ingredientName = document.getElementById('ingredientName_0'),
+    ingredientQty = document.getElementById('ingredientQty_0');
   const id = document.getElementById('recipeId').innerHTML;
   await fetch(`https://www.mealprepapi.com/api/v1/recipes/${id}`, {
     method: 'get',
@@ -290,15 +297,14 @@ async function editRecipe() {
       gluten.checked = results.data.glutenFree;
       ingredientName.value = results.data.ingredientNames[0];
       ingredientQty.value = results.data.ingredientQtys[0];
-      for( i = 1; i < results.data.ingredientNames.length; i++){
-      let divCont = document.createElement('DIV');
-      divCont.setAttribute('id', `ingContainer_${i}`);
-      divCont.setAttribute('class', 'ingContainer');
-      divCont.innerHTML += `<input type="text" value="${results.data.ingredientNames[i]}" class="ingredientName" id="ingredientName_${i}" placeholder="Ingredient Name">`;
-      divCont.innerHTML += `<input type="text" value="${results.data.ingredientQtys[i]}" class="ingredientQty" id="ingredientQty_${i}" placeholder="Ingreditent Quantity">`;
-      document.getElementById('ingredientCont').appendChild(divCont);
+      for (i = 1; i < results.data.ingredientNames.length; i++) {
+        let divCont = document.createElement('DIV');
+        divCont.setAttribute('id', `ingContainer_${i}`);
+        divCont.setAttribute('class', 'ingContainer');
+        divCont.innerHTML += `<input type="text" value="${results.data.ingredientNames[i]}" class="ingredientName" id="ingredientName_${i}" placeholder="Ingredient Name">`;
+        divCont.innerHTML += `<input type="text" value="${results.data.ingredientQtys[i]}" class="ingredientQty" id="ingredientQty_${i}" placeholder="Ingreditent Quantity">`;
+        document.getElementById('ingredientCont').appendChild(divCont);
       }
-
     });
 }
 
@@ -330,7 +336,9 @@ async function getUser() {
       if (results.success === true) {
         localStorage.userId = results.data._id;
         // queryApi(localStorage.pageNum ? localStorage.pageNum : 1);
-        queryApi(Number(localStorage.pagenum) ? Number(localStorage.pagenum) : 1);
+        queryApi(
+          Number(localStorage.pagenum) ? Number(localStorage.pagenum) : 1
+        );
       }
     });
 }
@@ -352,16 +360,16 @@ function closeMeal() {
   singleMeal.classList.remove('active');
 }
 
-function clearForm(e){
+function clearForm(e) {
   e.preventDefault();
   const title = document.getElementById('title'),
-  prepTime = document.getElementById('prepTime'),
-  serves = document.getElementById('serves'),
-  category = document.getElementById('category'),
-  directions = document.getElementById('directions'),
-  notes = document.getElementById('notes'),
-  vegan = document.getElementById('vegan'),
-  gluten = document.getElementById('glutenfree');
+    prepTime = document.getElementById('prepTime'),
+    serves = document.getElementById('serves'),
+    category = document.getElementById('category'),
+    directions = document.getElementById('directions'),
+    notes = document.getElementById('notes'),
+    vegan = document.getElementById('vegan'),
+    gluten = document.getElementById('glutenfree');
 
   title.value = '';
   prepTime.value = '';
@@ -373,32 +381,30 @@ function clearForm(e){
   gluten.checed = false;
 
   let inputCount = document.querySelectorAll('#ingredientCont .ingContainer')
-  .length;
+    .length;
   for (let i = 0; i < inputCount; i++) {
     document.getElementById(`ingredientName_${i}`).value = '';
     document.getElementById(`ingredientQty_${i}`).value = '';
   }
-  for(let i = 1; i < inputCount; i++){
-    container.removeChild(container.childNodes[i+1]);
+  for (let i = 1; i < inputCount; i++) {
+    container.removeChild(container.childNodes[i + 1]);
   }
-
 }
 
-function clearStorage(){
+function clearStorage() {
   localStorage.removeItem('pagenum');
   localStorage.removeItem('userId');
   localStorage.removeItem('token');
 }
 
-function showPlanner(){
+function showPlanner() {
   location.href = './planner/planner.html';
 }
-
 
 // Event listeners
 logout.addEventListener('click', logoutUser);
 profile.addEventListener('click', showProfile);
-planner.addEventListener('click', showPlanner)
+planner.addEventListener('click', showPlanner);
 submitForm.addEventListener('click', createRecipe);
 addRecipeBtn.addEventListener('click', showRecipeForm);
 closeRecipeBtn.addEventListener('click', closeRecipeForm);
@@ -435,6 +441,6 @@ function removeFields() {
   if (inputCount === 1) {
     console.log('Cant remove last object');
   } else {
-    container.removeChild(container.childNodes[inputCount+1]);
+    container.removeChild(container.childNodes[inputCount + 1]);
   }
 }
