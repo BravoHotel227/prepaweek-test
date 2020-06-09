@@ -50,7 +50,7 @@ async function logoutUser() {
         // meals.innerHTML = '';
         // single_mealEl.innerHTML = '';
         clearStorage();
-        location.href = './login.html';
+        location.href = '../login.html';
       } else {
         alert('Logout failed...');
       }
@@ -64,6 +64,9 @@ function clearStorage() {
 }
 
 const onload = async () => {
+  if (!localStorage.getItem('token')) {
+    location.href = '../login.html';
+  }
   loading.classList.add('loading-active');
   foo = await getRecipes();
   Recipes = foo.data;

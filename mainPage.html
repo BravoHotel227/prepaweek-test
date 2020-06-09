@@ -10,12 +10,20 @@
     <link rel="stylesheet" href="style.css" />
     <title>Home</title>
   </head>
-  <body class="main-body" onload="getUser()">
-    <div class="header">
-      <button class="planner" id="planner">Planner</button>
-      <button id="btn-addRecipe">Add Recipe</button>
-      <button id="profile">Profile</button>
-      <button id="logout">Logout</button>
+  <body id="mainPage-body" class="main-body theme-light" onload="mainLoad()">
+    <div class="header header-light" id="header">
+      <button class="planner button-light" id="planner">Planner</button>
+      <button class="button-light" id="btn-addRecipe">Add Recipe</button>
+      <button class="button-light" id="profile">Profile</button>
+      <button
+        class="button-light"
+        id="theme"
+        class="theme"
+        onclick="changeTheme()"
+      >
+        Theme
+      </button>
+      <button class="button-light" id="logout">Logout</button>
     </div>
     <div id="empty-recipe"></div>
     <div class="loading-container">
@@ -121,7 +129,7 @@
     <div id="result-heading"></div>
     <div class="content">
       <div class="meals" id="meals"></div>
-      <div class="single-meal" id="container"></div>
+      <div class="single-meal single-meal-light" id="container"></div>
     </div>
     <script src="main.js"></script>
   </body>

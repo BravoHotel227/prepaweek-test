@@ -34,7 +34,7 @@ async function queryApi(number) {
         mealsEl.innerHTML = results.data
           .map(
             (recipe) => `
-          <div class="recipe">
+          <div class="recipe recipe-light">
             <div class="recipe-info" data-recipeID="${recipe._id}">
               <h3>${recipe.title}</h3>
              <h5> Prep Time: ${recipe.prepTime} Serves: ${recipe.serves} </h5>
@@ -113,7 +113,7 @@ function addRecipeToDOM(recipe) {
   </div>
   <div class="meal-body" id="sgl-meal">
       <div class="single-meal-category">
-          ${recipe.category ? `<p>${recipe.category}</p>` : ''}
+          ${checkCategory(recipe.category)}
       </div>
       <div class="recipe-time-serves">
         <h5>Prep time: ${recipe.prepTime} Serves: ${recipe.serves}</h5>
@@ -145,6 +145,33 @@ function addRecipeToDOM(recipe) {
     document.getElementById('note-heading').style.borderBottom = '';
   }
   single_mealEl.classList.add('active');
+}
+
+function checkCategory(cat) {
+  var category;
+  switch (cat) {
+    case 'Breakfast': {
+      category = `<h3 class="breakfast-color">Breakfast</h3>`;
+      break;
+    }
+    case 'Lunch': {
+      category = `<h3 class="lunch-color">Lunch</h3>`;
+      break;
+    }
+    case 'Dinner': {
+      category = `<h3 class="dinner-color">Dinner</h3>`;
+      break;
+    }
+    case 'Dessert': {
+      category = `<h3 class="dessert-color">Dessert</h3>`;
+      break;
+    }
+    case 'Snack': {
+      category = `<h3 class="snack-color">Snack</h3>`;
+      break;
+    }
+  }
+  return category;
 }
 
 async function logoutUser() {
@@ -323,24 +350,28 @@ async function deleteRecipe() {
     });
 }
 
-async function getUser() {
-  await fetch('https://www.mealprepapi.com/api/v1/auth/me', {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + localStorage.token,
-    },
-  })
-    .then((response) => response.json())
-    .then((results) => {
-      if (results.success === true) {
-        localStorage.userId = results.data._id;
-        // queryApi(localStorage.pageNum ? localStorage.pageNum : 1);
-        queryApi(
-          Number(localStorage.pagenum) ? Number(localStorage.pagenum) : 1
-        );
-      }
-    });
+async function mainLoad() {
+  if (localStorage.getItem('token')) {
+    await fetch('https://www.mealprepapi.com/api/v1/auth/me', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + localStorage.token,
+      },
+    })
+      .then((response) => response.json())
+      .then((results) => {
+        if (results.success === true) {
+          localStorage.userId = results.data._id;
+          // queryApi(localStorage.pageNum ? localStorage.pageNum : 1);
+          queryApi(
+            Number(localStorage.pagenum) ? Number(localStorage.pagenum) : 1
+          );
+        }
+      });
+  } else {
+    location.href = 'login.html';
+  }
 }
 
 // Make the add recipe form visible
@@ -400,6 +431,69 @@ function clearStorage() {
 function showPlanner() {
   location.href = './planner/planner.html';
 }
+
+const changeTheme = () => {
+  const body = document.getElementById('mainPage-body');
+  const recipe = document.querySelectorAll('.recipe');
+  const header = document.getElementById('header');
+  const headerBtn = header.getElementsByTagName('button');
+  // const body = document.querySelector('.main-body');
+  if (
+    localStorage.getItem('theme') &&
+    localStorage.getItem('theme') === 'light'
+  ) {
+    recipe.forEach((item) => {
+      item.classList.remove('recipe-light');
+      item.classList.add('recipe-dark');
+    });
+    for (i = 0; i < headerBtn.length; i++) {
+      headerBtn[i].classList.remove('button-light');
+      headerBtn[i].classList.add('button-dark');
+    }
+    header.classList.remove('header-light');
+    header.classList.add('header-dark');
+    single_mealEl.classList.remove('single-meal-light');
+    single_mealEl.classList.add('single-meal-dark');
+    body.classList.remove('theme-light');
+    body.classList.add('theme-dark');
+    localStorage.theme = 'dark';
+  } else if (
+    localStorage.getItem('theme') &&
+    localStorage.getItem('theme') === 'dark'
+  ) {
+    recipe.forEach((item) => {
+      item.classList.remove('recipe-dark');
+      item.classList.add('recipe-light');
+    });
+    for (i = 0; i < headerBtn.length; i++) {
+      headerBtn[i].classList.remove('button-dark');
+      headerBtn[i].classList.add('button-light');
+    }
+    header.classList.remove('header-dark');
+    header.classList.add('header-light');
+    single_mealEl.classList.add('single-meal-light');
+    single_mealEl.classList.remove('single-meal-dark');
+    body.classList.remove('theme-dark');
+    body.classList.add('theme-light');
+    localStorage.theme = 'light';
+  } else {
+    recipe.forEach((item) => {
+      item.classList.remove('recipe-light');
+      item.classList.add('recipe-dark');
+    });
+    for (i = 0; i < headerBtn.length; i++) {
+      headerBtn[i].classList.remove('button-light');
+      headerBtn[i].classList.add('button-dark');
+    }
+    header.classList.remove('header-light');
+    header.classList.add('header-dark');
+    single_mealEl.classList.remove('single-meal-light');
+    single_mealEl.classList.add('single-meal-dark');
+    body.classList.remove('theme-light');
+    body.classList.add('theme-dark');
+    localStorage.theme = 'dark';
+  }
+};
 
 // Event listeners
 logout.addEventListener('click', logoutUser);
