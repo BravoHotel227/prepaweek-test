@@ -34,7 +34,7 @@ async function queryApi(number) {
         mealsEl.innerHTML = results.data
           .map(
             (recipe) => `
-          <div class="recipe recipe-light">
+          <div class="recipe recipe-${localStorage.theme}">
             <div class="recipe-info" data-recipeID="${recipe._id}">
               <h3>${recipe.title}</h3>
              <h5> Prep Time: ${recipe.prepTime} Serves: ${recipe.serves} </h5>
@@ -189,7 +189,7 @@ async function logoutUser() {
         meals.innerHTML = '';
         single_mealEl.innerHTML = '';
         clearStorage();
-        location.href = 'login.html';
+        location.href = '../login.html';
       } else {
         console.log(results);
         alert('Logout failed...');
@@ -198,7 +198,7 @@ async function logoutUser() {
 }
 
 function showProfile() {
-  location.href = './profile/profile.html';
+  location.href = '../profile/profile.html';
 }
 
 async function createRecipe(e) {
@@ -352,6 +352,9 @@ async function deleteRecipe() {
 
 async function mainLoad() {
   if (localStorage.getItem('token')) {
+    if(!localStorage.getItem('theme')){
+      localStorage.theme = 'light';
+    }
     await fetch('https://www.mealprepapi.com/api/v1/auth/me', {
       method: 'GET',
       headers: {
@@ -370,7 +373,7 @@ async function mainLoad() {
         }
       });
   } else {
-    location.href = 'login.html';
+    location.href = '../login.html';
   }
 }
 
@@ -429,7 +432,7 @@ function clearStorage() {
 }
 
 function showPlanner() {
-  location.href = './planner/planner.html';
+  location.href = '../planner/planner.html';
 }
 
 const changeTheme = () => {
@@ -437,6 +440,7 @@ const changeTheme = () => {
   const recipe = document.querySelectorAll('.recipe');
   const header = document.getElementById('header');
   const headerBtn = header.getElementsByTagName('button');
+  const mealHead = document.querySelector('.meal-header');
   // const body = document.querySelector('.main-body');
   if (
     localStorage.getItem('theme') &&
@@ -476,22 +480,6 @@ const changeTheme = () => {
     body.classList.remove('theme-dark');
     body.classList.add('theme-light');
     localStorage.theme = 'light';
-  } else {
-    recipe.forEach((item) => {
-      item.classList.remove('recipe-light');
-      item.classList.add('recipe-dark');
-    });
-    for (i = 0; i < headerBtn.length; i++) {
-      headerBtn[i].classList.remove('button-light');
-      headerBtn[i].classList.add('button-dark');
-    }
-    header.classList.remove('header-light');
-    header.classList.add('header-dark');
-    single_mealEl.classList.remove('single-meal-light');
-    single_mealEl.classList.add('single-meal-dark');
-    body.classList.remove('theme-light');
-    body.classList.add('theme-dark');
-    localStorage.theme = 'dark';
   }
 };
 

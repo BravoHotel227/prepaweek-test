@@ -29,7 +29,7 @@ var Recipes = [];
 var Planner = [];
 
 function showHome() {
-  location.href = '../mainPage.html';
+  location.href = '../mainPage/mainPage.html';
 }
 function showProfile() {
   location.href = '../profile/profile.html';

@@ -3,7 +3,7 @@ const home = document.getElementById('home'),
 content = document.getElementById('content');
 
 function goHome() {
-  location.href = '../mainPage.html';
+  location.href = '../mainPgae/mainPage.html';
 }
 
 async function logoutUser() {
@@ -19,7 +19,7 @@ async function logoutUser() {
       if (results.success === true) {
         localStorage.removeItem('userId');
         localStorage.removeItem('token');
-        location.href = '../login/login.html';
+        location.href = '../login.html';
       } else {
         console.log(results);
         alert('Logout failed...');

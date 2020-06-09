@@ -43,7 +43,7 @@ async function loginFun() {
         }
         //store token in local storage
         localStorage.token = results.token;
-        location.href = '../mainPage.html';
+        location.href = 'mainPage/mainPage.html';
       } else {
         var type = 'login';
         openModal(false, type);
