@@ -1081,7 +1081,7 @@ th {
 @media only screen and (max-width: 600px) {
   .main-body {
     overflow: hidden;
-    height: auto;
+    height: 90vh;
   }
   .dropdown-content {
     width: 100%;
@@ -1101,6 +1101,7 @@ th {
     margin: 50% auto;
   }
   .header {
+    height: 10vh;
     bottom: 0;
     position: fixed;
     justify-content: space-evenly;
@@ -1134,7 +1135,7 @@ th {
   .content {
     padding: 0;
     display: block;
-    height: 92vh;
+    /* height: 92vh; */
   }
   .meals {
     position: relative;
@@ -1151,13 +1152,6 @@ th {
     margin: 5px 0px;
     width: auto;
     font-weight: normal;
-    /* background-color: var(--primary-color);
-    border: var(--primary-color);
-    color: black; */
-  }
-  .recipe:nth-child(odd) {
-    /* background-color: var(--secondary-color);
-    border: 1px solid var(--secondary-color); */
   }
   .single-meal {
     display: block;
@@ -1184,10 +1178,8 @@ th {
   .meal-header {
     border: 0;
     padding: 0;
-    height: 8vh;
-    background-color: var(--dark-background);
+    height: 5vh;
     background-color: transparent;
-    /* background-color: rgba(255, 255, 255, 0.05); */
     position: absolute;
     top: 0;
     left: 0;
@@ -1209,16 +1201,14 @@ th {
     background-color: transparent;
   }
   .meal-title {
-    background-color: rgba(255, 255, 255, 0.05);
-    margin-top: 5px;
-    box-shadow: 1px -3px 3px rgba(255, 255, 255, 0.05);
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    background-color: rgba(255, 255, 255, 0.11);
+    /* margin-top: 5px; */
   }
   .meal-body {
     align-items: center;
     justify-content: center;
     width: auto;
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: rgba(255, 255, 255, 0.11);
   }
   .recipe-time-serves {
     /* color: var(--dark-text); */

@@ -354,8 +354,10 @@ async function mainLoad() {
   if (localStorage.getItem('token')) {
     if (!localStorage.getItem('theme')) {
       localStorage.theme = 'light';
+      setTheme(localStorage.theme);
+    } else {
+      setTheme(localStorage.theme);
     }
-    changeTheme();
     await fetch('https://www.mealprepapi.com/api/v1/auth/me', {
       method: 'GET',
       headers: {
@@ -441,7 +443,7 @@ const changeTheme = () => {
   const recipe = document.querySelectorAll('.recipe');
   const header = document.getElementById('header');
   const headerBtn = header.getElementsByTagName('button');
-  const mealHead = document.querySelector('.meal-header');
+  // const mealHead = document.querySelector('.meal-header');
   // const body = document.querySelector('.main-body');
   if (
     localStorage.getItem('theme') &&
@@ -481,6 +483,49 @@ const changeTheme = () => {
     body.classList.remove('theme-dark');
     body.classList.add('theme-light');
     localStorage.theme = 'light';
+  }
+};
+
+const setTheme = (theme) => {
+  const body = document.getElementById('mainPage-body');
+  const recipe = document.querySelectorAll('.recipe');
+  const header = document.getElementById('header');
+  const headerBtn = header.getElementsByTagName('button');
+  switch (theme) {
+    case 'light': {
+      recipe.forEach((item) => {
+        item.classList.remove('recipe-dark');
+        item.classList.add('recipe-light');
+      });
+      for (i = 0; i < headerBtn.length; i++) {
+        headerBtn[i].classList.remove('button-dark');
+        headerBtn[i].classList.add('button-light');
+      }
+      header.classList.remove('header-dark');
+      header.classList.add('header-light');
+      single_mealEl.classList.add('single-meal-light');
+      single_mealEl.classList.remove('single-meal-dark');
+      body.classList.remove('theme-dark');
+      body.classList.add('theme-light');
+      break;
+    }
+    case 'dark': {
+      recipe.forEach((item) => {
+        item.classList.remove('recipe-light');
+        item.classList.add('recipe-dark');
+      });
+      for (i = 0; i < headerBtn.length; i++) {
+        headerBtn[i].classList.remove('button-light');
+        headerBtn[i].classList.add('button-dark');
+      }
+      header.classList.remove('header-light');
+      header.classList.add('header-dark');
+      single_mealEl.classList.remove('single-meal-light');
+      single_mealEl.classList.add('single-meal-dark');
+      body.classList.remove('theme-light');
+      body.classList.add('theme-dark');
+      break;
+    }
   }
 };
 
