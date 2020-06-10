@@ -174,19 +174,19 @@ input[type='password'] {
   color: transparent;
   height: 10px;
 }
-.login-btn{
+.login-btn {
   color: var(--primary-color);
   font-weight: bold;
 }
-.login-btn:hover{
+.login-btn:hover {
   box-shadow: 3px 5px 9px #e7e7e7;
   border: 1px solid #e7e7e7;
 }
-.register-btn{
+.register-btn {
   color: var(--primary-color);
   font-weight: bold;
 }
-.register-btn:hover{
+.register-btn:hover {
   box-shadow: 3px 5px 9px #e7e7e7;
   border: 1px solid #e7e7e7;
 }
@@ -232,17 +232,17 @@ input {
   box-shadow: 3px 5px 9px #e7e7e7;
   border: 1px solid #e7e7e7;
 }
-.remember-dets{
+.remember-dets {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.remember-dets input{
+.remember-dets input {
   height: 25px;
   width: 25px;
   margin-right: 5px;
 }
-.remember-dets p{
+.remember-dets p {
   font-size: 1rem;
 }
 
@@ -376,7 +376,8 @@ input {
 .meal-title {
   font-size: 2rem;
   font-weight: bold;
-  color: var(--primary-color);
+  /* color: var(--primary-color);
+  color: rgba(255, 255, 255, 0.87); */
 }
 
 .single-meal-category {
@@ -1110,10 +1111,10 @@ th {
     border: 0;
     /* background-color: #e7e7e7; */
   }
-  .header-dark{
+  .header-dark {
     background-color: var(--dark-background);
   }
-  .header-light{
+  .header-light {
     box-shadow: rgba(255, 255, 255, 0.05);
     border: 1px solid var(--primary-color);
   }
@@ -1161,10 +1162,12 @@ th {
   .single-meal {
     display: block;
     width: 100%;
-    height: 82vh;
+    height: 92vh;
+    padding-top: 5vh;
+    padding-bottom: 15px;
     border-radius: 0;
     position: fixed;
-    top: 8vh;
+    top: 0;
     z-index: 2;
     pointer-events: none;
     overflow-y: scroll;
@@ -1174,7 +1177,7 @@ th {
   .single-meal.active {
     pointer-events: all;
   }
-  .single-meal-dark{
+  .single-meal-dark {
     background-color: var(--dark-background);
     border: 1px solid var(--dark-background);
   }
@@ -1183,7 +1186,9 @@ th {
     padding: 0;
     height: 8vh;
     background-color: var(--dark-background);
-    position: fixed;
+    background-color: transparent;
+    /* background-color: rgba(255, 255, 255, 0.05); */
+    position: absolute;
     top: 0;
     left: 0;
     width: 100vw;
@@ -1195,22 +1200,25 @@ th {
   }
   .meal-btn button {
     background-color: transparent;
+    color: var(--primary-color);
   }
   #edit-recipe {
     background-color: transparent;
-    color: white;
   }
   #delete-recipe {
     background-color: transparent;
-    color: white;
   }
-  .meal-title{
+  .meal-title {
+    background-color: rgba(255, 255, 255, 0.05);
     margin-top: 5px;
+    box-shadow: 1px -3px 3px rgba(255, 255, 255, 0.05);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
   }
   .meal-body {
     align-items: center;
     justify-content: center;
     width: auto;
+    background-color: rgba(255, 255, 255, 0.05);
   }
   .recipe-time-serves {
     /* color: var(--dark-text); */

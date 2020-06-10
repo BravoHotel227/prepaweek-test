@@ -352,9 +352,10 @@ async function deleteRecipe() {
 
 async function mainLoad() {
   if (localStorage.getItem('token')) {
-    if(!localStorage.getItem('theme')){
+    if (!localStorage.getItem('theme')) {
       localStorage.theme = 'light';
     }
+    changeTheme();
     await fetch('https://www.mealprepapi.com/api/v1/auth/me', {
       method: 'GET',
       headers: {
