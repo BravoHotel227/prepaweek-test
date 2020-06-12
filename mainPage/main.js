@@ -443,6 +443,7 @@ const changeTheme = () => {
   const recipe = document.querySelectorAll('.recipe');
   const header = document.getElementById('header');
   const headerBtn = header.getElementsByTagName('button');
+  const addRecp = document.querySelector('.add-recipe-container');
   // const mealHead = document.querySelector('.meal-header');
   // const body = document.querySelector('.main-body');
   if (
@@ -457,6 +458,8 @@ const changeTheme = () => {
       headerBtn[i].classList.remove('button-light');
       headerBtn[i].classList.add('button-dark');
     }
+    addRecp.classList.remove('add-recipe-light');
+    addRecp.classList.add('add-recipe-dark');
     header.classList.remove('header-light');
     header.classList.add('header-dark');
     single_mealEl.classList.remove('single-meal-light');
@@ -476,6 +479,8 @@ const changeTheme = () => {
       headerBtn[i].classList.remove('button-dark');
       headerBtn[i].classList.add('button-light');
     }
+    addRecp.classList.remove('add-recipe-dark');
+    addRecp.classList.add('add-recipe-light');
     header.classList.remove('header-dark');
     header.classList.add('header-light');
     single_mealEl.classList.add('single-meal-light');
@@ -491,6 +496,7 @@ const setTheme = (theme) => {
   const recipe = document.querySelectorAll('.recipe');
   const header = document.getElementById('header');
   const headerBtn = header.getElementsByTagName('button');
+  const addRecp = document.querySelector('.add-recipe-container');
   switch (theme) {
     case 'light': {
       recipe.forEach((item) => {
@@ -501,6 +507,8 @@ const setTheme = (theme) => {
         headerBtn[i].classList.remove('button-dark');
         headerBtn[i].classList.add('button-light');
       }
+      addRecp.classList.remove('add-recipe-light');
+      addRecp.classList.add('add-recipe-dark');
       header.classList.remove('header-dark');
       header.classList.add('header-light');
       single_mealEl.classList.add('single-meal-light');
@@ -518,6 +526,8 @@ const setTheme = (theme) => {
         headerBtn[i].classList.remove('button-light');
         headerBtn[i].classList.add('button-dark');
       }
+      addRecp.classList.remove('add-recipe-dark');
+      addRecp.classList.add('add-recipe-light');
       header.classList.remove('header-light');
       header.classList.add('header-dark');
       single_mealEl.classList.remove('single-meal-light');

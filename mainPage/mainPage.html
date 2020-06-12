@@ -6,11 +6,11 @@
     <link rel="stylesheet" href="../style.css" />
     <title>Home</title>
   </head>
-  <body id="mainPage-body" class="main-body theme-light" onload="mainLoad()">
-    <div class="header header-light" id="header">
-      <button class="planner button-light" id="planner">Planner</button>
-      <button class="button-light" id="btn-addRecipe">Add Recipe</button>
-      <button class="button-light" id="profile">Profile</button>
+  <body id="mainPage-body" class="main-body" onload="mainLoad()">
+    <div class="header" id="header">
+      <button class="planner" id="planner">Planner</button>
+      <button id="btn-addRecipe">Add Recipe</button>
+      <button id="profile">Profile</button>
       <button
         class="button-light"
         id="theme"
@@ -26,7 +26,7 @@
       <div class="loading" id="loading"></div>
     </div>
     <div id="addRecipe"></div>
-    <div class="recipe-form" id="recipe-form">
+    <div class="recipe-form-container" id="recipe-form">
       <div class="add-recipe-container" id="add-recipe-container">
         <div class="recipe-header">
           <h1 id="form-heading"></h1>
@@ -47,7 +47,6 @@
                   <option value="Snack">Snack</option>
                   <option value="Dessert">Dessert</option>
                 </select>
-                <br />
                 <textarea
                   id="directions"
                   cols="50"
@@ -60,7 +59,6 @@
                   rows="7"
                   placeholder="Recipe notes..."
                 ></textarea>
-                <br />
                 <div class="check-boxes">
                   <div class="check-box-vegan">
                     <input type="checkbox" id="vegan" />Vegan
@@ -69,7 +67,7 @@
                     <input type="checkbox" id="glutenfree" />Gluten-free
                   </div>
                 </div>
-                <input type="file" id="image" accept="image/*" />
+                <!-- <input type="file" id="image" accept="image/*" /> -->
               </div>
               <div class="form-right-half">
                 <div id="ingredientCont">
