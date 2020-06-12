@@ -507,8 +507,8 @@ const setTheme = (theme) => {
         headerBtn[i].classList.remove('button-dark');
         headerBtn[i].classList.add('button-light');
       }
-      addRecp.classList.remove('add-recipe-light');
-      addRecp.classList.add('add-recipe-dark');
+      addRecp.classList.remove('add-recipe-dark');
+      addRecp.classList.add('add-recipe-light');
       header.classList.remove('header-dark');
       header.classList.add('header-light');
       single_mealEl.classList.add('single-meal-light');
@@ -526,8 +526,8 @@ const setTheme = (theme) => {
         headerBtn[i].classList.remove('button-light');
         headerBtn[i].classList.add('button-dark');
       }
-      addRecp.classList.remove('add-recipe-dark');
-      addRecp.classList.add('add-recipe-light');
+      addRecp.classList.remove('add-recipe-light');
+      addRecp.classList.add('add-recipe-dark');
       header.classList.remove('header-light');
       header.classList.add('header-dark');
       single_mealEl.classList.remove('single-meal-light');
