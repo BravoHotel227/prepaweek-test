@@ -690,7 +690,7 @@ input {
   overflow: hidden;
 }
 .recipe-light {
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  /* border: 1px solid rgba(0, 0, 0, 0.05); */
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
   color: rgba(0, 0, 0, 0.87);
 }
@@ -701,7 +701,7 @@ input {
 }
 .recipe-dark {
   background-color: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(0, 0, 0);
+  /* border: 1px solid rgba(0, 0, 0); */
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 1);
   color: rgba(255, 255, 255, 0.87);
 }
@@ -709,6 +709,21 @@ input {
   background-color: rgba(255, 255, 255, 0.09);
   border: 1px solid rgba(255, 255, 255, 0.09);
   box-shadow: 0 -2px 10px rgba(255, 255, 255, 0.09);
+}
+.breakfast-outline {
+  border: 3px solid var(--breakfast-color);
+}
+.lunch-outline {
+  border: 3px solid var(--lunch-color);
+}
+.dinner-outline {
+  border: 3px solid var(--dinner-color);
+}
+.dessert-outline {
+  border: 3px solid var(--dessert-color);
+}
+.snack-outline {
+  border: 3px solid var(--snack-color);
 }
 .empty-recipe {
   width: 500px;
@@ -848,13 +863,22 @@ input {
   height: 25%;
   padding: 2% 0%;
   font-size: 2rem;
-  border-radius: 50px;
+  border-radius: 25px;
   overflow: hidden;
   box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 7px 20px 0 rgba(0, 0, 0, 0.2);
   text-align: center;
 }
 .delete-modal-content p {
   padding-bottom: 10px;
+}
+.delete-modal-content button {
+  color: var(--secondary-color);
+  font-weight: bold;
+}
+.delete-modal-content button:hover {
+  font-size: 1.3rem;
+  background-color: var(--secondary-light-color);
+  color: #fff;
 }
 .delete {
   font-size: 1.2rem;
@@ -875,7 +899,6 @@ input {
 }
 
 .planner-name-hd h1 {
-  color: #f5f5f5;
   font-style: italic;
   padding: 5px;
   text-align: left;
@@ -902,7 +925,6 @@ input {
   min-width: 140px;
   width: auto;
   font-style: italic;
-  color: #f2f3f4;
   font-weight: normal;
   padding-right: 5px;
 }
@@ -915,10 +937,6 @@ input {
   margin: 5px;
 }
 
-.planner-body {
-  background-color: var(--background-color);
-  /* height: 100vh; */
-}
 .planner-content {
   margin: 0;
   height: auto;
@@ -926,6 +944,8 @@ input {
 #search-input {
   background-color: #f5f5f5;
   margin-left: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.23);
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.16);
 }
 .select {
   width: 250px;
@@ -933,6 +953,9 @@ input {
   background-color: #f5f5f5;
   border-radius: 5px;
   font-size: 1rem;
+}
+.select:disabled {
+  cursor: not-allowed;
 }
 .planner-name {
   display: none;
@@ -942,6 +965,8 @@ input {
   width: 20%;
   min-width: 200px;
   background-color: #f5f5f5;
+  border: 1px solid rgba(0, 0, 0, 0.23);
+  box-shadow: 3px 3px 9px rgba(0, 0, 0, 0.16);
 }
 
 .table {
@@ -1004,6 +1029,7 @@ th {
   display: flex;
   justify-content: center;
   height: 100%;
+  padding-bottom: 10px;
 }
 
 .planner-meal-card {
@@ -1034,7 +1060,6 @@ th {
 .add-planner {
   width: 5vw;
   min-width: 50px;
-  background-color: #f5f5f5;
   color: var(--primary-color);
   font-weight: bold;
 }
@@ -1049,7 +1074,6 @@ th {
   width: 5vw;
   min-width: 50px;
   margin: 0px 5px;
-  background-color: #f5f5f5;
   color: var(--primary-color);
   font-weight: bold;
   display: block;
@@ -1061,7 +1085,6 @@ th {
 #save-edit {
   width: 5vw;
   min-width: 50px;
-  background-color: #f5f5f5;
   color: var(--primary-color);
   font-weight: bold;
 }
@@ -1088,12 +1111,9 @@ th {
 .planner-meal-serves {
   font-size: 1.2rem;
   font-style: italic;
-  color: var(-);
 }
 .planner-meal-types {
   padding: 10px 0px;
-}
-.planner-meal-main {
 }
 .info-block {
   display: flex;
@@ -1126,7 +1146,7 @@ th {
   width: 70%;
 }
 .planner-meal-notes p {
-  width: 70%;
+  width: 100%;
 }
 
 #match-list {
@@ -1374,6 +1394,76 @@ th {
   }
   .check-boxes {
     margin-top: 10px;
+  }
+
+  /* Planner Styling */
+  .table-info {
+    display: flex;
+    flex-wrap: wrap;
+    font-weight: normal;
+    font-size: 0.8rem;
+    margin: 0;
+  }
+  .planner-name-hd {
+    width: 100%;
+  }
+  #name-heading h1 {
+    margin: auto;
+    margin-left: 0;
+  }
+  .planner-info {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+  .planner-info h3 {
+    min-width: 0;
+    width: 130px;
+  }
+  .planner-info select {
+    padding: 0;
+    margin: 0;
+  }
+  .planner-btn {
+    margin-top: 5px;
+    width: 100%;
+    height: 5%;
+    border-top: 1px solid rgba(0, 0, 0, 0.26);
+  }
+  .planner-btn button {
+    height: 2%;
+    padding: 0;
+  }
+  #add-planner {
+    height: 2%;
+  }
+  #edit-recipe {
+    height: 2%;
+  }
+  table {
+    border: none;
+    background-color: none;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+  }
+  tbody {
+  }
+  th tr td {
+    flex-wrap: wrap;
+  }
+  th:nth-of-type(1) {
+    display: none;
+  }
+  td:nth-of-type(1) {
+    display: none;
+  }
+  td:nth-of-type(2) {
+    width: 320px;
+    background-color: #004d40;
+  }
+  td:nth-of-type(3) {
+    width: 500px;
   }
 }
 @media only screen and (max-width: 400px) {

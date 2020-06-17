@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="../style.css" />
     <title>Document</title>
   </head>
-  <body class="planner-body" onload="onload()">
+  <body class="planner-body" id="planner-body" onload="onload()">
     <div class="dropdown" id="dropdown-alert">
       <div class="dropdown-content" id="dropdown-content"></div>
     </div>
@@ -22,10 +22,14 @@
     <div class="loading-container">
       <div class="loading" id="loading"></div>
     </div>
-    <div class="header">
+    <div class="header" id="header">
       <!-- <button id="btn-addRecipe">Add Recipe</button> -->
       <button id="home">Home</button>
+      <button id="btn-addRecipe">Add Recipe</button>
       <button id="profile">Profile</button>
+      <!-- <button id="theme" class="theme" onclick="changeTheme()">
+        Theme
+      </button> -->
       <button id="logout">Logout</button>
     </div>
     <div class="planner-content" id="planner-content">

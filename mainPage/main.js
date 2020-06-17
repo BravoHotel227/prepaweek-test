@@ -34,8 +34,10 @@ async function queryApi(number) {
         mealsEl.innerHTML = results.data
           .map(
             (recipe) => `
-          <div class="recipe recipe-${localStorage.theme}">
-            <div class="recipe-info" data-recipeID="${recipe._id}">
+          <div class="recipe recipe-${localStorage.theme} ${recipeOutline(
+              recipe.category
+            )}">
+            <div class="recipe-info " data-recipeID="${recipe._id}">
               <h3>${recipe.title}</h3>
              <h5> Prep Time: ${recipe.prepTime} Serves: ${recipe.serves} </h5>
             </div>
@@ -145,6 +147,33 @@ function addRecipeToDOM(recipe) {
     document.getElementById('note-heading').style.borderBottom = '';
   }
   single_mealEl.classList.add('active');
+}
+
+function recipeOutline(cat) {
+  var category;
+  switch (cat) {
+    case 'Breakfast': {
+      category = `breakfast-outline`;
+      break;
+    }
+    case 'Lunch': {
+      category = `lunch-outline`;
+      break;
+    }
+    case 'Dinner': {
+      category = `dinner-outline`;
+      break;
+    }
+    case 'Dessert': {
+      category = `dessert-outline`;
+      break;
+    }
+    case 'Snack': {
+      category = `snack-outline`;
+      break;
+    }
+  }
+  return category;
 }
 
 function checkCategory(cat) {

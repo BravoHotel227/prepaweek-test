@@ -67,6 +67,12 @@ const onload = async () => {
   if (!localStorage.getItem('token')) {
     location.href = '../login.html';
   }
+  if (!localStorage.getItem('theme')) {
+    localStorage.theme = 'light';
+    setTheme(localStorage.theme);
+  } else {
+    setTheme(localStorage.theme);
+  }
   loading.classList.add('loading-active');
   foo = await getRecipes();
   Recipes = foo.data;
@@ -141,6 +147,7 @@ function showPlanner(planner, edit) {
     'Sunday',
   ];
   var category = ['Breakfast', 'Lunch', 'Dinner', 'Dessert', 'Snack'];
+  var thead = document.createElement('thead');
   var headRow = document.createElement('tr');
   for (var i = 0; i < 8; i++) {
     var header = document.createElement('th');
@@ -148,7 +155,8 @@ function showPlanner(planner, edit) {
     header.appendChild(headertext);
     headRow.appendChild(header);
   }
-  tbl.appendChild(headRow);
+  thead.appendChild(headRow);
+  tbl.appendChild(thead);
 
   // creating cells
   for (var i = 0; i < 5; i++) {
@@ -340,7 +348,7 @@ function showRecipe(recipe) {
       </div>
       <div class="planner-meal-body" id="planner-sgl-meal">
       <div class="planner-meal-category">
-          ${recipe.category ? `<p>${recipe.category}</p>` : ''}
+          ${checkCategory(recipe.category)}
       </div>
       <div class="planner-meal-serves">
         <h5>Prep time: ${recipe.prepTime} Serves: ${recipe.serves}</h5>
@@ -387,6 +395,11 @@ function closeMeal() {
 }
 
 async function editPlanner() {
+  const container = document.getElementById('planner-meal');
+  document.getElementById('select-planner').disabled = true;
+  if (container.firstChild) {
+    container.innerHTML = '';
+  }
   type = 'edit';
   var edit = true;
   planner = await getPlanner();
@@ -463,7 +476,7 @@ const outputHtml = (matches) => {
 
     matchList.innerHTML = html;
   } else {
-    matchList.innerHTML = '';
+    clearMatchList();
   }
 };
 
@@ -489,6 +502,7 @@ const getCellIndex = () => {
 };
 
 const savePlanner = async () => {
+  clearMatchList();
   const table = document.querySelector('table');
   const tableId = table.getAttribute('data-plannerId');
   var breakfastID = [],
@@ -609,6 +623,7 @@ const savePlanner = async () => {
 };
 
 const addPlanner = async () => {
+  document.getElementById('select-planner').disabled = true;
   type = 'add';
   addActive();
   table.innerHTML = '';
@@ -764,6 +779,108 @@ const closeDelete = () => {
   deleteAlert.classList.remove('dropdown-active');
   deleteAlert.classList.add('dropdown-not-active');
 };
+const setTheme = (theme) => {
+  const body = document.getElementById('planner-body');
+  const header = document.getElementById('header');
+  const headerBtn = header.getElementsByTagName('button');
+  // const addRecp = document.querySelector('.add-recipe-container');
+  switch (theme) {
+    case 'light': {
+      for (i = 0; i < headerBtn.length; i++) {
+        headerBtn[i].classList.remove('button-dark');
+        headerBtn[i].classList.add('button-light');
+      }
+      // addRecp.classList.remove('add-recipe-dark');
+      // addRecp.classList.add('add-recipe-light');
+      header.classList.remove('header-dark');
+      header.classList.add('header-light');
+      body.classList.remove('theme-dark');
+      body.classList.add('theme-light');
+      break;
+    }
+    case 'dark': {
+      for (i = 0; i < headerBtn.length; i++) {
+        headerBtn[i].classList.remove('button-light');
+        headerBtn[i].classList.add('button-dark');
+      }
+      // addRecp.classList.remove('add-recipe-light');
+      // addRecp.classList.add('add-recipe-dark');
+      header.classList.remove('header-light');
+      header.classList.add('header-dark');
+      body.classList.remove('theme-light');
+      body.classList.add('theme-dark');
+      break;
+    }
+  }
+};
+
+const changeTheme = () => {
+  const body = document.getElementById('planner-body');
+  const header = document.getElementById('header');
+  const headerBtn = header.getElementsByTagName('button');
+  // const addRecp = document.querySelector('.add-recipe-container');
+  if (
+    localStorage.getItem('theme') &&
+    localStorage.getItem('theme') === 'light'
+  ) {
+    for (i = 0; i < headerBtn.length; i++) {
+      headerBtn[i].classList.remove('button-light');
+      headerBtn[i].classList.add('button-dark');
+    }
+    // addRecp.classList.remove('add-recipe-light');
+    // addRecp.classList.add('add-recipe-dark');
+    header.classList.remove('header-light');
+    header.classList.add('header-dark');
+    body.classList.remove('theme-light');
+    body.classList.add('theme-dark');
+    localStorage.theme = 'dark';
+  } else if (
+    localStorage.getItem('theme') &&
+    localStorage.getItem('theme') === 'dark'
+  ) {
+    for (i = 0; i < headerBtn.length; i++) {
+      headerBtn[i].classList.remove('button-dark');
+      headerBtn[i].classList.add('button-light');
+    }
+    // addRecp.classList.remove('add-recipe-dark');
+    // addRecp.classList.add('add-recipe-light');
+    header.classList.remove('header-dark');
+    header.classList.add('header-light');
+    body.classList.remove('theme-dark');
+    body.classList.add('theme-light');
+    localStorage.theme = 'light';
+  }
+};
+function clearMatchList() {
+  matchList.innerHTML = '';
+}
+
+function checkCategory(cat) {
+  var category;
+  switch (cat) {
+    case 'Breakfast': {
+      category = `<h3 class="breakfast-color">Breakfast</h3>`;
+      break;
+    }
+    case 'Lunch': {
+      category = `<h3 class="lunch-color">Lunch</h3>`;
+      break;
+    }
+    case 'Dinner': {
+      category = `<h3 class="dinner-color">Dinner</h3>`;
+      break;
+    }
+    case 'Dessert': {
+      category = `<h3 class="dessert-color">Dessert</h3>`;
+      break;
+    }
+    case 'Snack': {
+      category = `<h3 class="snack-color">Snack</h3>`;
+      break;
+    }
+  }
+  return category;
+}
 
 // Event listeners
 home.addEventListener('click', showHome);
